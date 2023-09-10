@@ -13,6 +13,8 @@ protocol BrowserInteractable: AnyObject {
     // MARK: - Methods
     func getPopularMovies()
     func getNowPlaying()
+    func getTopRate()
+    func getUpComing()
 }
 
 class BrowserInteractor: BrowserInteractable {
@@ -27,6 +29,16 @@ class BrowserInteractor: BrowserInteractable {
     
     // MARK: - Methods
    
+    func getUpComing() {
+        service.getUpComing { result in
+            switch result {
+            case .success(let model):
+                self.presenter?.didSuccessUpComing(model: model)
+            case .failure(let error):
+                self.presenter?.didFailure(message: error.localizedDescription)
+            }
+        }
+    }
 
     func getPopularMovies() {
         service.getTopMovies { result in
@@ -49,4 +61,17 @@ class BrowserInteractor: BrowserInteractable {
             }
         }
     }
+    
+    func getTopRate() {
+        service.getTopRate { result in
+            switch result {
+            case .success(let model):
+                self.presenter?.didSuccessTopRate(model: model)
+            case .failure(let error):
+                self.presenter?.didFailure(message: error.localizedDescription)
+            }
+        }
+    }
+    
+    
 }

@@ -14,6 +14,20 @@ class BrowserService {
 
     // MARK: - Methods
     
+    func getUpComing(completion: @escaping (Result<UpComingResponseEntity, Error>) -> Void){
+        CoreService.shared.get(
+            url: URL(string: baseURL + "/movie/upcoming?api_key=" + apiToken),
+            expecting: UpComingResponseEntity.self) { result in
+                
+                switch result {
+                case .success(let model):
+                    completion(.success(model))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
     func getTopMovies(completion: @escaping (Result<PopularMoviesResponseEntity, Error>) -> Void){
         CoreService.shared.get(
             url: URL(string: baseURL + "/movie/popular?api_key=" + apiToken),
@@ -41,6 +55,23 @@ class BrowserService {
                 }
             }
     }
+    
+    
+    func getTopRate(completion: @escaping (Result<TopRateResponseEntity, Error>) -> Void){
+        CoreService.shared.get(
+            url: URL(string: baseURL + "/movie/top_rated?api_key=" + apiToken),
+            expecting: TopRateResponseEntity.self) { result in
+                
+                switch result {
+                case .success(let model):
+                    completion(.success(model))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    
     
     
 }

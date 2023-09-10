@@ -10,15 +10,23 @@ import Foundation
 // MARK: - BrowserType
 
 enum BrowserType {
+    case topRate(model: [TopRateViewModelCell])
+    case upComing(model: [UpComingViewModelCell])
     case popularMovies(model: [PopularViewModelCell])
     case nowPlaying(model: [NowPlayingViewModelCell])
     
     var title: String {
         switch self {
+        
         case .popularMovies:
             return "Popular Movies"
         case .nowPlaying:
             return "Now Playing"
+        case .topRate:
+            return "Top Rate"
+        case .upComing:
+            return "Up Coming"
+        
         }
     }
 }
@@ -33,6 +41,9 @@ protocol BrowserPresentable: AnyObject {
     func fetchAllMovieEndPoints()
     func didSuccessPopularMovie(model: PopularMoviesResponseEntity)
     func didSuccessNowPlaying(model: NowPlayingResponseEntity)
+    func didSuccessTopRate(model: TopRateResponseEntity)
+    func didSuccessUpComing(model: UpComingResponseEntity)
+    
     func didFailure(message: String)
     
 }
@@ -61,8 +72,16 @@ class BrowserPresenter: BrowserPresentable {
     
     // MARK: - Methods
     func fetchAllMovieEndPoints() {
+        interactor?.getUpComing()
         interactor?.getPopularMovies()
         interactor?.getNowPlaying()
+        interactor?.getTopRate()
+        
+    }
+    func didSuccessUpComing(model: UpComingResponseEntity) {
+        let movieCell = mapper.upComingMovie(model: model)
+        dataBrowser.append(.upComing(model: movieCell))
+        view?.updateView(model: dataBrowser)
     }
     
     func didSuccessPopularMovie(model: PopularMoviesResponseEntity) {
@@ -73,8 +92,15 @@ class BrowserPresenter: BrowserPresentable {
     func didSuccessNowPlaying(model: NowPlayingResponseEntity) {
         let movieCell = mapper.nowPlayingMovie(model: model)
         dataBrowser.append(.nowPlaying(model: movieCell))
-        view?.updateView(model: dataBrowser)
     }
+    
+    func didSuccessTopRate(model: TopRateResponseEntity) {
+        let movieCell = mapper.topRateMovie(model: model)
+        dataBrowser.append(.topRate(model: movieCell))
+//
+    }
+    
+
     
     func didFailure(message: String) {
         view?.showError(message: message)

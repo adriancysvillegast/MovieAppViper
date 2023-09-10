@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class BasicMovieCollectionViewCell: UICollectionViewCell {
     
@@ -18,25 +19,10 @@ class BasicMovieCollectionViewCell: UICollectionViewCell {
         return aImage
     }()
     
-    private lazy var aView: UIView = {
-        let aImage = UIView()
-        aImage.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-        return aImage
-    }()
-    
-    private lazy var title: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.textColor = .white
-        label.numberOfLines = 1
-        label.font = .systemFont(ofSize: 18, weight: .bold)
-        return label
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        [aImageCover, aView, title].forEach {
+        [aImageCover].forEach {
             contentView.addSubview($0)
         }
         
@@ -50,6 +36,27 @@ class BasicMovieCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         aImageCover.frame = contentView.bounds
-        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        aImageCover.image = nil
+    }
+    
+    // MARK: - Methods
+    func configuration(model: PopularViewModelCell) {
+        aImageCover.sd_setImage(with: model.posterPath)
+    }
+    
+    func configuration(model: NowPlayingViewModelCell) {
+        aImageCover.sd_setImage(with: model.posterPath)
+    }
+    
+    func configuration(model: TopRateViewModelCell) {
+        aImageCover.sd_setImage(with: model.posterPath)
+    }
+    
+    func configuration(model: UpComingViewModelCell) {
+        aImageCover.sd_setImage(with: model.posterPath)
     }
 }
