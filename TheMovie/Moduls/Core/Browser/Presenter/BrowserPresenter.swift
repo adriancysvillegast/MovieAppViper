@@ -43,13 +43,14 @@ protocol BrowserPresentable: AnyObject {
     func didSuccessNowPlaying(model: NowPlayingResponseEntity)
     func didSuccessTopRate(model: TopRateResponseEntity)
     func didSuccessUpComing(model: UpComingResponseEntity)
-    
+    func onTapMovie(movieID: Int)
     func didFailure(message: String)
     
 }
 
 
 class BrowserPresenter: BrowserPresentable {
+    
 
     // MARK: - Properties
     weak var view: BrowserViewDelegate?
@@ -72,17 +73,12 @@ class BrowserPresenter: BrowserPresentable {
     
     // MARK: - Methods
     func fetchAllMovieEndPoints() {
-        interactor?.getUpComing()
         interactor?.getPopularMovies()
         interactor?.getNowPlaying()
         interactor?.getTopRate()
-        
+        interactor?.getUpComing()
     }
-    func didSuccessUpComing(model: UpComingResponseEntity) {
-        let movieCell = mapper.upComingMovie(model: model)
-        dataBrowser.append(.upComing(model: movieCell))
-        view?.updateView(model: dataBrowser)
-    }
+
     
     func didSuccessPopularMovie(model: PopularMoviesResponseEntity) {
         let movieCell = mapper.popularMovie(model: model)
@@ -97,11 +93,20 @@ class BrowserPresenter: BrowserPresentable {
     func didSuccessTopRate(model: TopRateResponseEntity) {
         let movieCell = mapper.topRateMovie(model: model)
         dataBrowser.append(.topRate(model: movieCell))
-//
+
     }
     
-
+    func didSuccessUpComing(model: UpComingResponseEntity) {
+        let movieCell = mapper.upComingMovie(model: model)
+        dataBrowser.append(.upComing(model: movieCell))
+        view?.updateView(model: dataBrowser)
+    }
     
+    func onTapMovie(movieID: Int) {
+        let id = movieID.description
+        router.showDetailMovie(movieID: id)
+    }
+
     func didFailure(message: String) {
         view?.showError(message: message)
     }

@@ -8,6 +8,7 @@
 import Foundation
 
 struct TopRateViewModelCell {
+    let id: Int
     let posterPath: URL?
     let title, overview: String
 }

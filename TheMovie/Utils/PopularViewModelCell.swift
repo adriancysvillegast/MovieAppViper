@@ -8,6 +8,7 @@
 import Foundation
 
 struct PopularViewModelCell {
+    let id: Int
     let posterPath: URL?
     let title, overview: String
 }

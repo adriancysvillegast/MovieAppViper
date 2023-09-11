@@ -1,44 +1,43 @@
 //
-//  BrowserView.swift
+//  DetailMovieView.swift
 //  TheMovie
 //
-//  Created by Adriancys Jesus Villegas Toro on 8/9/23.
+//  Created by Adriancys Jesus Villegas Toro on 10/9/23.
 //
 
 import UIKit
 
-// MARK: - BrowserViewDelegate
-protocol BrowserViewDelegate: AnyObject {
+protocol DetailMovieViewDelegate: AnyObject {
     //    Properties
     
     //    Methods
-    func updateView(model: [BrowserType])
+    func updateView(model: [DetailSections], title: String)
     func showError(message: String)
 }
 
-class BrowserView: UIViewController {
-
+class DetailMovieView: UIViewController {
     // MARK: - Properties
-    private let presenter: BrowserPresentable
-    private var dataBrowser: [BrowserType] = []
+    private let presenter : DetailMoviePresentable
+    private var detail: [DetailSections] = []
     
     private lazy var aCollectionView: UICollectionView = {
         let aCollection = UICollectionView(frame: .zero,
-                                           collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { sections, _ in
-            return BrowserView.createSectionLayout(with: sections)
+                                           collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { section, _ in
+            DetailMovieView.createSectionLayout(with: section)
         }))
         aCollection.backgroundColor = .systemBackground
         aCollection.delegate = self
         aCollection.dataSource = self
         aCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        aCollection.register(HeaderTitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderTitleCollectionReusableView.identifier)
+        aCollection.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
+        aCollection.register(TextCollectionViewCell.self, forCellWithReuseIdentifier: TextCollectionViewCell.identifier)
         aCollection.register(BasicMovieCollectionViewCell.self, forCellWithReuseIdentifier: BasicMovieCollectionViewCell.identifier)
+        aCollection.register(HeaderTitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderTitleCollectionReusableView.identifier)
         return aCollection
     }()
     
     // MARK: - Init
-    
-    init(presenter: BrowserPresentable) {
+    init(presenter: DetailMoviePresentable) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -51,12 +50,10 @@ class BrowserView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
-        title = "Browser"
-        presenter.fetchAllMovieEndPoints()
+        presenter.fetchDetails()
         setUpView()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         aCollectionView.frame = view.bounds
@@ -65,17 +62,22 @@ class BrowserView: UIViewController {
     // MARK: - SetUpView
     
     private func setUpView() {
-        view.addSubview(aCollectionView)
         view.backgroundColor = .systemBackground
+        view.addSubview(aCollectionView)
     }
-
+    
+    // MARK: - Methods
+    
+    
 }
 
-// MARK: - BrowserViewDelegate
-extension BrowserView: BrowserViewDelegate {
-    func updateView(model: [BrowserType]) {
+// MARK: - DetailMovieViewDelegate
+extension DetailMovieView: DetailMovieViewDelegate {
+    func updateView(model: [DetailSections], title: String) {
         DispatchQueue.main.async {
-            self.dataBrowser = self.presenter.dataBrowser
+            self.detail = model
+            self.title = title
+            
             self.aCollectionView.reloadData()
         }
     }
@@ -86,59 +88,83 @@ extension BrowserView: BrowserViewDelegate {
         }
     }
     
-}
-// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-extension BrowserView: UICollectionViewDelegate, UICollectionViewDataSource {
     
+}
+
+// MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+
+extension DetailMovieView: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dataBrowser.count
+        return detail.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = dataBrowser[section]
-        switch section {
-        case .nowPlaying(let model):
-            return model.count
-        case .topRate(let model):
-            return model.count
-        case .upComing(let model):
-            return model.count
-        case .popularMovies(let model):
+        let section = detail[section]
+        switch section{
+        case .artWork:
+            return 1
+        case .description:
+            return 1
+        case .genre:
+            return 1
+        case .language:
+            return 1
+        case .popularity:
+            return 1
+        case .prodCompanies(let model):
             return model.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = dataBrowser[indexPath.section]
+        let section = detail[indexPath.section]
         switch section {
-        case .upComing(let model):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicMovieCollectionViewCell.identifier, for: indexPath) as? BasicMovieCollectionViewCell else {
+        case .artWork(let model):
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configuration(model: model[indexPath.row])
+            cell.configuration(artWork: model )
             return cell
-        case .popularMovies(let model):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicMovieCollectionViewCell.identifier, for: indexPath) as? BasicMovieCollectionViewCell else {
+        case .description(let model):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TextCollectionViewCell.identifier,
+                for: indexPath) as? TextCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configuration(model: model[indexPath.row])
+            cell.configuration(overview: model)
             return cell
-        case .nowPlaying(let model):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicMovieCollectionViewCell.identifier, for: indexPath) as? BasicMovieCollectionViewCell else {
+        case .genre(let model):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TextCollectionViewCell.identifier,
+                for: indexPath) as? TextCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configuration(model: model[indexPath.row])
+            cell.configuration(overview: model)
             return cell
-        case .topRate(let model):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicMovieCollectionViewCell.identifier, for: indexPath) as? BasicMovieCollectionViewCell else {
+        case .language(let model):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TextCollectionViewCell.identifier,
+                for: indexPath) as? TextCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configuration(model: model[indexPath.row])
+            cell.configuration(overview: model)
             return cell
-
-        
+        case .popularity(let model):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TextCollectionViewCell.identifier,
+                for: indexPath) as? TextCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configuration(overview: model)
+            return cell
+        case .prodCompanies(let model):
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as? CoverCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configuration(artWork: model[indexPath.row] )
+            return cell
         }
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -148,25 +174,8 @@ extension BrowserView: UICollectionViewDelegate, UICollectionViewDataSource {
             for: indexPath) as? HeaderTitleCollectionReusableView else {
             return UICollectionReusableView()
         }
-        header.configure(with: dataBrowser[indexPath.section].title)
+        header.configure(with: detail[indexPath.section].title)
         return header
-        
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        let section = dataBrowser[indexPath.section]
-        switch section {
-        case .upComing(let model):
-            presenter.onTapMovie(movieID: model[indexPath.row].id)
-        case .popularMovies(let model):
-            presenter.onTapMovie(movieID: model[indexPath.row].id)
-        case .nowPlaying(let model):
-            presenter.onTapMovie(movieID: model[indexPath.row].id)
-        case .topRate(let model):
-            presenter.onTapMovie(movieID: model[indexPath.row].id)
-        }
         
     }
     
@@ -183,7 +192,7 @@ extension BrowserView: UICollectionViewDelegate, UICollectionViewDataSource {
         
         switch section{
         case 0:
-//            Popular
+//            Cover
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
@@ -191,70 +200,49 @@ extension BrowserView: UICollectionViewDelegate, UICollectionViewDataSource {
                 )
             )
             item.contentInsets = NSDirectionalEdgeInsets(
-                top: 5, leading: 2,
-                bottom: 5, trailing: 2
+                top: 0, leading: 0,
+                bottom: 0, trailing: 0
             )
             
             let groupHorizontal = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.98),
-                    heightDimension: .absolute(300))
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(450))
                 ,subitem: item,
-                count: 2
+                count: 1
             )
+            groupHorizontal.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0)
             
             let section = NSCollectionLayoutSection(group: groupHorizontal)
             section.orthogonalScrollingBehavior = .groupPaging
-            section.boundarySupplementaryItems = supplementaryView
+//            section.boundarySupplementaryItems = supplementaryView
             return section
             
         case 1:
-//            Now Playing
+//            Description
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
                     heightDimension: .fractionalHeight(1)
                 )
             )
-            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
             
             let groupHorizontal = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(0.98),
-                    heightDimension: .absolute(300))
+                    heightDimension: .absolute(190) )
                 ,subitem: item,
-                count: 2
+                count: 1
             )
-            
+            groupHorizontal.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 10, bottom: 2, trailing: 10)
             let section = NSCollectionLayoutSection(group: groupHorizontal)
             section.orthogonalScrollingBehavior = .groupPaging
             section.boundarySupplementaryItems = supplementaryView
             return section
             
         case 2:
-            //            Top Rate
-            let item = NSCollectionLayoutItem(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
-                    heightDimension: .fractionalHeight(1)
-                )
-            )
-            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-            
-            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.8),
-                    heightDimension: .absolute(520))
-                ,subitem: item,
-                count: 1
-            )
-            
-            let section = NSCollectionLayoutSection(group: groupHorizontal)
-            section.orthogonalScrollingBehavior = .groupPaging
-            section.boundarySupplementaryItems = supplementaryView
-            return section
-        case 3:
-//            Up Coming
+            //            Genre
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
@@ -266,11 +254,77 @@ extension BrowserView: UICollectionViewDelegate, UICollectionViewDataSource {
             let groupHorizontal = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(0.98),
-                    heightDimension: .absolute(300))
+                    heightDimension: .absolute(40) )
                 ,subitem: item,
-                count: 2
+                count: 1
             )
+            groupHorizontal.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 10, bottom: 2, trailing: 10)
+            let section = NSCollectionLayoutSection(group: groupHorizontal)
+            section.orthogonalScrollingBehavior = .groupPaging
+            section.boundarySupplementaryItems = supplementaryView
+            return section
+        case 3:
+//            Lenguage
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalHeight(1)
+                )
+            )
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
             
+            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.98),
+                    heightDimension: .absolute(40) )
+                ,subitem: item,
+                count: 1
+            )
+            groupHorizontal.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 10, bottom: 2, trailing: 10)
+            let section = NSCollectionLayoutSection(group: groupHorizontal)
+            section.orthogonalScrollingBehavior = .groupPaging
+            section.boundarySupplementaryItems = supplementaryView
+            return section
+        case 4:
+//            Popularity
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalHeight(1)
+                )
+            )
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
+            
+            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.98),
+                    heightDimension: .absolute(40) )
+                ,subitem: item,
+                count: 1
+            )
+            groupHorizontal.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 10, bottom: 2, trailing: 10)
+            let section = NSCollectionLayoutSection(group: groupHorizontal)
+            section.orthogonalScrollingBehavior = .groupPaging
+            section.boundarySupplementaryItems = supplementaryView
+            return section
+        case 5:
+//            Production Companies
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalHeight(1)
+                )
+            )
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
+            
+            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(150) )
+                ,subitem: item,
+                count: 3
+            )
+            groupHorizontal.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 10, bottom: 2, trailing: 10)
             let section = NSCollectionLayoutSection(group: groupHorizontal)
             section.orthogonalScrollingBehavior = .groupPaging
             section.boundarySupplementaryItems = supplementaryView
