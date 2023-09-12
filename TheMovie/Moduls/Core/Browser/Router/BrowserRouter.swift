@@ -12,27 +12,26 @@ protocol BrowserRouting: AnyObject {
     var browserView : BrowserView? { get }
     var detailView: DetailMovieRouting? { get }
     
-    func showBrowser(window: UIWindow?)
+    func showBrowser() -> UIViewController
     func showDetailMovie(movieID: String)
 }
 
 class BrowserRouter: BrowserRouting {
+    
+    
     // MARK: - Properties
     var browserView : BrowserView?
     var detailView: DetailMovieRouting?
     // MARK: - Methods
-    
-    func showBrowser(window: UIWindow?) {
+    public func showBrowser() -> UIViewController {
         detailView = DetailMovieRouter()
         let interactor = BrowserInteractor()
         let presenter = BrowserPresenter(interactor: interactor, router: self)
-        
-        browserView = BrowserView(presenter: presenter)
-        presenter.view = browserView
+        let view = BrowserView(presenter: presenter)
+        browserView = view
+        presenter.view = view
         interactor.presenter = presenter
-        let view = UINavigationController(rootViewController: browserView!)
-        window?.rootViewController = view
-        window?.makeKeyAndVisible()
+        return view
     }
     
     func showDetailMovie(movieID: String) {
