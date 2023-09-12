@@ -34,18 +34,6 @@ class BrowserRouter: BrowserRouting {
         return view
     }
     
-//    func showBrowser() {
-//        detailView = DetailMovieRouter()
-//        let interactor = BrowserInteractor()
-//        let presenter = BrowserPresenter(interactor: interactor, router: self)
-//
-//        browserView = BrowserView(presenter: presenter)
-//        presenter.view = browserView
-//        interactor.presenter = presenter
-////        let view = UINavigationController(rootViewController: browserView!)
-//
-//    }
-    
     func showDetailMovie(movieID: String) {
         guard let fromViewController = browserView else {
             return
