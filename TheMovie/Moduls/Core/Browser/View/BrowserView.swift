@@ -30,6 +30,7 @@ class BrowserView: UIViewController {
         aCollection.backgroundColor = .systemBackground
         aCollection.delegate = self
         aCollection.dataSource = self
+        aCollection.isHidden = true
         aCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         aCollection.register(HeaderTitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderTitleCollectionReusableView.identifier)
         aCollection.register(BasicMovieCollectionViewCell.self, forCellWithReuseIdentifier: BasicMovieCollectionViewCell.identifier)
@@ -77,7 +78,9 @@ extension BrowserView: BrowserViewDelegate {
         DispatchQueue.main.async {
             self.dataBrowser = self.presenter.dataBrowser
             self.aCollectionView.reloadData()
+            self.aCollectionView.isHidden = false
         }
+        
     }
     
     func showError(message: String) {
