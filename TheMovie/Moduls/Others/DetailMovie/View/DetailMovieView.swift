@@ -62,6 +62,7 @@ class DetailMovieView: UIViewController {
     // MARK: - SetUpView
     
     private func setUpView() {
+        navigationItem.largeTitleDisplayMode = .never
         view.backgroundColor = .systemBackground
         view.addSubview(aCollectionView)
     }

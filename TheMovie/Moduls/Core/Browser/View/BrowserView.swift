@@ -54,8 +54,9 @@ class BrowserView: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .blue
         title = "Browser"
-        presenter.fetchAllMovieEndPoints()
         setUpView()
+        presenter.fetchAllMovieEndPoints()
+        
     }
 
     override func viewDidLayoutSubviews() {
@@ -66,8 +67,8 @@ class BrowserView: UIViewController {
     // MARK: - SetUpView
     
     private func setUpView() {
-        view.addSubview(aCollectionView)
         view.backgroundColor = .systemBackground
+        view.addSubview(aCollectionView)
     }
 
 }
@@ -77,8 +78,8 @@ extension BrowserView: BrowserViewDelegate {
     func updateView(model: [BrowserType]) {
         DispatchQueue.main.async {
             self.dataBrowser = self.presenter.dataBrowser
-            self.aCollectionView.reloadData()
             self.aCollectionView.isHidden = false
+            self.aCollectionView.reloadData()
         }
         
     }
