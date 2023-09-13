@@ -1,5 +1,5 @@
 //
-//  BasicMovieCollectionViewCell.swift
+//  BasicCollectionViewCell.swift
 //  TheMovie
 //
 //  Created by Adriancys Jesus Villegas Toro on 9/9/23.
@@ -8,10 +8,10 @@
 import UIKit
 import SDWebImage
 
-class BasicMovieCollectionViewCell: UICollectionViewCell {
+class BasicCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
-    static let identifier = "BasicMovieCollectionViewCell"
+    static let identifier = "BasicCollectionViewCell"
     
     private lazy var aImageCover: UIImageView = {
         let aImage = UIImageView()
@@ -43,7 +43,7 @@ class BasicMovieCollectionViewCell: UICollectionViewCell {
         aImageCover.image = nil
     }
     
-    // MARK: - Methods
+    // MARK: - MOVIE Methods
     func configuration(model: PopularViewModelCell) {
         aImageCover.sd_setImage(with: model.posterPath)
     }
@@ -59,4 +59,10 @@ class BasicMovieCollectionViewCell: UICollectionViewCell {
     func configuration(model: UpComingViewModelCell) {
         aImageCover.sd_setImage(with: model.posterPath)
     }
+    
+    // MARK: - TV METHODS
+    func configuration(model: TvAiringTodayViewModelCell) {
+        aImageCover.sd_setImage(with: model.posterPath)
+    }
+    
 }

@@ -9,7 +9,7 @@ import Foundation
 
 struct Mapper {
     
-    // MARK: - Popular Movies
+    // MARK: - Movies
     
     func popularMovie(model: PopularMoviesResponseEntity) -> [PopularViewModelCell] {
         let movies = model.results.compactMap {
@@ -69,4 +69,17 @@ struct Mapper {
         return modelCell
     }
     
+    // MARK: - TV Shows
+    func tvAiring(model: TVAiringTodayResponsesEntity) -> [TvAiringTodayViewModelCell] {
+        let modelCell = model.results.compactMap {
+            TvAiringTodayViewModelCell(
+                id: $0.id,
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + $0.posterPath),
+                title: $0.originalName,
+                overview: $0.overview
+            )
+            }
+        return modelCell
+    }
+        
 }
