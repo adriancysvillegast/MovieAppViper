@@ -21,6 +21,13 @@
 		0982BBA72AAE613200C60475 /* CoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBA62AAE613200C60475 /* CoverCollectionViewCell.swift */; };
 		0982BBA92AAE6F8C00C60475 /* TextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBA82AAE6F8C00C60475 /* TextCollectionViewCell.swift */; };
 		0982BBB72AAFF64700C60475 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBB62AAFF64700C60475 /* TabBarViewController.swift */; };
+		0982BBBF2AB0CE5C00C60475 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBBE2AB0CE5C00C60475 /* AuthService.swift */; };
+		0982BBC12AB0D5BD00C60475 /* AuthEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBC02AB0D5BD00C60475 /* AuthEntity.swift */; };
+		0982BBC32AB0E8EB00C60475 /* RequestTokenEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBC22AB0E8EB00C60475 /* RequestTokenEntity.swift */; };
+		0982BBC52AB0EAA700C60475 /* AuthInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBC42AB0EAA700C60475 /* AuthInteractor.swift */; };
+		0982BBC72AB0F11B00C60475 /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBC62AB0F11B00C60475 /* AuthPresenter.swift */; };
+		0982BBC92AB0F21600C60475 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBC82AB0F21600C60475 /* AuthView.swift */; };
+		0982BBCB2AB0F2F200C60475 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBCA2AB0F2F200C60475 /* AuthRouter.swift */; };
 		098F8D1C2AAD448700BA9F2C /* UpComingResponseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F8D1B2AAD448700BA9F2C /* UpComingResponseEntity.swift */; };
 		098F8D1E2AAD452200BA9F2C /* UpComingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F8D1D2AAD452200BA9F2C /* UpComingEntity.swift */; };
 		098F8D202AAD47A900BA9F2C /* UpComingViewModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F8D1F2AAD47A900BA9F2C /* UpComingViewModelCell.swift */; };
@@ -65,6 +72,13 @@
 		0982BBA62AAE613200C60475 /* CoverCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverCollectionViewCell.swift; sourceTree = "<group>"; };
 		0982BBA82AAE6F8C00C60475 /* TextCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCollectionViewCell.swift; sourceTree = "<group>"; };
 		0982BBB62AAFF64700C60475 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		0982BBBE2AB0CE5C00C60475 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		0982BBC02AB0D5BD00C60475 /* AuthEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEntity.swift; sourceTree = "<group>"; };
+		0982BBC22AB0E8EB00C60475 /* RequestTokenEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTokenEntity.swift; sourceTree = "<group>"; };
+		0982BBC42AB0EAA700C60475 /* AuthInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInteractor.swift; sourceTree = "<group>"; };
+		0982BBC62AB0F11B00C60475 /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
+		0982BBC82AB0F21600C60475 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		0982BBCA2AB0F2F200C60475 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
 		098F8D1B2AAD448700BA9F2C /* UpComingResponseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingResponseEntity.swift; sourceTree = "<group>"; };
 		098F8D1D2AAD452200BA9F2C /* UpComingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingEntity.swift; sourceTree = "<group>"; };
 		098F8D1F2AAD47A900BA9F2C /* UpComingViewModelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingViewModelCell.swift; sourceTree = "<group>"; };
@@ -151,6 +165,7 @@
 		0940D9F02AAB8D7800ABD584 /* Moduls */ = {
 			isa = PBXGroup;
 			children = (
+				0982BBB82AB0CD8000C60475 /* Auth */,
 				0940D9F22AAB8DCB00ABD584 /* Others */,
 				0940D9F12AAB8DC300ABD584 /* Core */,
 			);
@@ -232,6 +247,68 @@
 				0940D9DB2AAB88DC00ABD584 /* BrowserView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		0982BBB82AB0CD8000C60475 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				0982BBBC2AB0CDF600C60475 /* View */,
+				0982BBB92AB0CDBD00C60475 /* Interactor */,
+				0982BBBA2AB0CDD400C60475 /* Presenter */,
+				0982BBBD2AB0CE1600C60475 /* Entity */,
+				0982BBCC2AB0F70D00C60475 /* Router */,
+				0982BBBB2AB0CDDB00C60475 /* Service */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		0982BBB92AB0CDBD00C60475 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				0982BBC42AB0EAA700C60475 /* AuthInteractor.swift */,
+			);
+			path = Interactor;
+			sourceTree = "<group>";
+		};
+		0982BBBA2AB0CDD400C60475 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				0982BBC62AB0F11B00C60475 /* AuthPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		0982BBBB2AB0CDDB00C60475 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				0982BBBE2AB0CE5C00C60475 /* AuthService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		0982BBBC2AB0CDF600C60475 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0982BBC82AB0F21600C60475 /* AuthView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0982BBBD2AB0CE1600C60475 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				0982BBC02AB0D5BD00C60475 /* AuthEntity.swift */,
+				0982BBC22AB0E8EB00C60475 /* RequestTokenEntity.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		0982BBCC2AB0F70D00C60475 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				0982BBCA2AB0F2F200C60475 /* AuthRouter.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		098F8D252AAE083100BA9F2C /* DetailMovie */ = {
@@ -472,12 +549,14 @@
 				098F8D352AAE139300BA9F2C /* DetailMoviePresenter.swift in Sources */,
 				099E15652AACE139003C916E /* HeaderTitleCollectionReusableView.swift in Sources */,
 				0940D9EF2AAB89AE00ABD584 /* RequestBuilder.swift in Sources */,
+				0982BBC32AB0E8EB00C60475 /* RequestTokenEntity.swift in Sources */,
 				098F8D312AAE108500BA9F2C /* GenreEntity.swift in Sources */,
 				0982BBB72AAFF64700C60475 /* TabBarViewController.swift in Sources */,
 				099E15602AACC64B003C916E /* NowPlayingViewModelCell.swift in Sources */,
 				0940D9DC2AAB88DC00ABD584 /* BrowserView.swift in Sources */,
 				0982BBA72AAE613200C60475 /* CoverCollectionViewCell.swift in Sources */,
 				098F8D392AAE214600BA9F2C /* DetailMovieRouter.swift in Sources */,
+				0982BBC92AB0F21600C60475 /* AuthView.swift in Sources */,
 				09D21C502AABA7D7000CADBD /* BrowserService.swift in Sources */,
 				0940D9FE2AAB90DD00ABD584 /* PopularMoviesResponseEntity.swift in Sources */,
 				098F8D1E2AAD452200BA9F2C /* UpComingEntity.swift in Sources */,
@@ -491,17 +570,22 @@
 				099E15692AACE6B9003C916E /* TopRateResponseEntity.swift in Sources */,
 				098F8D1C2AAD448700BA9F2C /* UpComingResponseEntity.swift in Sources */,
 				099E15672AACE67C003C916E /* TopRateEntity.swift in Sources */,
+				0982BBC12AB0D5BD00C60475 /* AuthEntity.swift in Sources */,
+				0982BBBF2AB0CE5C00C60475 /* AuthService.swift in Sources */,
 				0982BBA92AAE6F8C00C60475 /* TextCollectionViewCell.swift in Sources */,
 				09D21C522AABADCB000CADBD /* BrowserRouter.swift in Sources */,
 				09D21C4E2AAB9A5B000CADBD /* BrowserPresenter.swift in Sources */,
 				0940D9ED2AAB893700ABD584 /* CoreService.swift in Sources */,
+				0982BBCB2AB0F2F200C60475 /* AuthRouter.swift in Sources */,
 				09D21C5B2AABDD93000CADBD /* PopularViewModelCell.swift in Sources */,
 				098F8D332AAE131700BA9F2C /* DetailMovieInteractor.swift in Sources */,
 				0940D9FC2AAB902800ABD584 /* PopularMovieEntity.swift in Sources */,
 				099E155E2AACC3BC003C916E /* NowPlayingResponseEntity.swift in Sources */,
 				098F8D2F2AAE102800BA9F2C /* DetailMovieResponseEntity.swift in Sources */,
+				0982BBC72AB0F11B00C60475 /* AuthPresenter.swift in Sources */,
 				0940D9DA2AAB88DC00ABD584 /* SceneDelegate.swift in Sources */,
 				099E15632AACDB02003C916E /* BasicMovieCollectionViewCell.swift in Sources */,
+				0982BBC52AB0EAA700C60475 /* AuthInteractor.swift in Sources */,
 				098F8D372AAE19A000BA9F2C /* DetailMovieView.swift in Sources */,
 				098F8D202AAD47A900BA9F2C /* UpComingViewModelCell.swift in Sources */,
 				099E155C2AACC38C003C916E /* NowPlayingEntity.swift in Sources */,
