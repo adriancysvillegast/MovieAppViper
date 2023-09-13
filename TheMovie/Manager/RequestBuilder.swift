@@ -10,7 +10,8 @@ import Foundation
 class RequestBuilder {
     
     // MARK: - Properties
-    
+    private let accessToken = ProcessInfo.processInfo.environment["accessToken"] ?? ""
+ 
     enum HTTPMethods: String {
         case GET
         case PUT
@@ -28,6 +29,13 @@ class RequestBuilder {
         var request = URLRequest(url: apiUrl)
         request.httpMethod = type.rawValue
         request.timeoutInterval = 30
+        let headers = [
+          "accept": "application/json",
+          "Authorization": "Bearer \(accessToken)"
+        ]
+        request.allHTTPHeaderFields = headers
+        
         completion(request)
     }
+    
 }

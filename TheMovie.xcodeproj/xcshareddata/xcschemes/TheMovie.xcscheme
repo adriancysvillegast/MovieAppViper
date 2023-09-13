@@ -57,6 +57,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "accessToken"
+            value = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MjU5N2FiZjRmOGMyZDRmODQ1MzIxNzEyYzEyOTNkNSIsInN1YiI6IjYyMjgxMzhmYzE2MDZhMDA2N2RhYmJjZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XskKitI4e6HtAkAiLmAjZVjgoqUPuck2rsk_0R6pqWg"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "token"
             value = "72597abf4f8c2d4f845321712c1293d5"
             isEnabled = "YES">
