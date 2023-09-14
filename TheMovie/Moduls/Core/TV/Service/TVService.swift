@@ -56,4 +56,18 @@ class TVService {
                     }
                 }
     }
+    
+    func fetchTVTopRate(
+        completion: @escaping (Result<TVTopRateResponseEntity, Error>) -> Void) {
+            CoreService.shared.get(
+                url: URL(string: baseURL + "/tv/top_rated?api_key=" + apiToken),
+                expecting: TVTopRateResponseEntity.self) { result in
+                    switch result {
+                    case .success(let model):
+                        completion(.success(model))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+    }
 }

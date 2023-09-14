@@ -11,6 +11,7 @@ enum TVShowType {
     case airToday(model: [TvAiringTodayViewModelCell])
     case onAir(model: [TvOnAirViewModelCell])
     case popular(model: [TvPopularViewModelCell])
+    case topRate(model: [TvTopRateViewModelCell])
     
     var title: String {
         switch self {
@@ -20,6 +21,8 @@ enum TVShowType {
             return "On Air"
         case .popular:
             return "Popular"
+        case .topRate:
+            return "Top Rate"
         }
     }
 }
@@ -33,6 +36,7 @@ protocol TVPresentable: AnyObject {
     func mappingTvAir(model: TVAiringTodayResponsesEntity)
     func mappingTvOnAir(model: TVOnAirResponseEntity)
     func mappingTvPopular(model: TVPopularResponseEntity)
+    func mappingTvTopRate(model: TVTopRateResponseEntity)
     
     func didFailured(message: String)
 }
@@ -58,6 +62,7 @@ class TVPresenter: TVPresentable {
         interactor.getTvAirToday()
         interactor.getTvOnAir()
         interactor.getTvPopular()
+        interactor.getTvTopRate()
     }
     
     func mappingTvAir(model: TVAiringTodayResponsesEntity) {
@@ -73,8 +78,15 @@ class TVPresenter: TVPresentable {
     func mappingTvPopular(model: TVPopularResponseEntity) {
         let modelCell =  mapper.tvPopular(model: model)
         dataTv.append(.popular(model: modelCell))
+        
+    }
+    
+    func mappingTvTopRate(model: TVTopRateResponseEntity) {
+        let modelCell = mapper.tvTopRate(model: model)
+        dataTv.append(.topRate(model: modelCell))
         view?.showTvShows(model: dataTv)
     }
+    
     
     func didFailured(message: String) {
         print(message)

@@ -14,6 +14,7 @@ protocol TVInteractable: AnyObject {
     func getTvAirToday()
     func getTvOnAir()
     func getTvPopular()
+    func getTvTopRate()
 }
 
 class TVInteractor: TVInteractable {
@@ -47,11 +48,23 @@ class TVInteractor: TVInteractable {
             }
         }
     }
+    
     func getTvPopular() {
         service.fetchTVPopular { result in
             switch result {
             case .success(let model):
                 self.presenter?.mappingTvPopular(model: model)
+            case .failure(let error):
+                self.presenter?.didFailured(message: error.localizedDescription)
+            }
+        }
+    }
+    
+    func getTvTopRate() {
+        service.fetchTVTopRate { result in
+            switch result {
+            case .success(let model):
+                self.presenter?.mappingTvTopRate(model: model)
             case .failure(let error):
                 self.presenter?.didFailured(message: error.localizedDescription)
             }
