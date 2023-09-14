@@ -28,4 +28,18 @@ class TVService {
                     }
                 }
     }
+    
+    func fetchTVOnAir(
+        completion: @escaping (Result<TVOnAirResponseEntity, Error>) -> Void) {
+            CoreService.shared.get(
+                url: URL(string: baseURL + "/tv/on_the_air?api_key=" + apiToken),
+                expecting: TVOnAirResponseEntity.self) { result in
+                    switch result {
+                    case .success(let model):
+                        completion(.success(model))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+    }
 }

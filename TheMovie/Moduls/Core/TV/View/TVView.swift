@@ -9,6 +9,7 @@ import UIKit
 // MARK: - TVViewDelegate
 protocol TVViewDelegate: AnyObject {
     func showTvShows(model: [TVShowType])
+    func showError(message: String)
 }
 
 // MARK: - TVView
@@ -76,6 +77,9 @@ extension TVView: TVViewDelegate {
         }
     }
     
+    func showError(message: String) {
+        AlertHelper.showAlert(message: message, navigation: self)
+    }
     
 }
 
@@ -91,6 +95,8 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
         switch section {
         case .airToday(let model):
             return model.count
+        case .onAir(let model):
+            return model.count
         }
     }
     
@@ -98,6 +104,14 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
         let section = tvShows[indexPath.section]
         switch section {
         case .airToday(let model):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: BasicCollectionViewCell.identifier,
+                for: indexPath) as? BasicCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configuration(model: model[indexPath.row])
+            return cell
+        case .onAir(let model):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: BasicCollectionViewCell.identifier,
                 for: indexPath) as? BasicCollectionViewCell else {
@@ -157,29 +171,29 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
             section.boundarySupplementaryItems = supplementaryView
             return section
             
-//        case 1:
-////            Now Playing
-//            let item = NSCollectionLayoutItem(
-//                layoutSize: NSCollectionLayoutSize(
-//                    widthDimension: .fractionalWidth(1),
-//                    heightDimension: .fractionalHeight(1)
-//                )
-//            )
-//            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
-//
-//            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
-//                layoutSize: NSCollectionLayoutSize(
-//                    widthDimension: .fractionalWidth(0.98),
-//                    heightDimension: .absolute(300))
-//                ,subitem: item,
-//                count: 2
-//            )
-//
-//            let section = NSCollectionLayoutSection(group: groupHorizontal)
-//            section.orthogonalScrollingBehavior = .groupPaging
-//            section.boundarySupplementaryItems = supplementaryView
-//            return section
-//
+        case 1:
+//            On Air
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalHeight(1)
+                )
+            )
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
+
+            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.98),
+                    heightDimension: .absolute(300))
+                ,subitem: item,
+                count: 2
+            )
+
+            let section = NSCollectionLayoutSection(group: groupHorizontal)
+            section.orthogonalScrollingBehavior = .groupPaging
+            section.boundarySupplementaryItems = supplementaryView
+            return section
+
 //        case 2:
 //            //            Top Rate
 //            let item = NSCollectionLayoutItem(
