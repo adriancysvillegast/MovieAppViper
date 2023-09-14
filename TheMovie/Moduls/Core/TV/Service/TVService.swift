@@ -42,4 +42,18 @@ class TVService {
                     }
                 }
     }
+    
+    func fetchTVPopular(
+        completion: @escaping (Result<TVPopularResponseEntity, Error>) -> Void) {
+            CoreService.shared.get(
+                url: URL(string: baseURL + "/tv/popular?api_key=" + apiToken),
+                expecting: TVPopularResponseEntity.self) { result in
+                    switch result {
+                    case .success(let model):
+                        completion(.success(model))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+    }
 }

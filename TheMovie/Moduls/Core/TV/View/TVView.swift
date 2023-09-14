@@ -97,6 +97,8 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
             return model.count
         case .onAir(let model):
             return model.count
+        case .popular(let model):
+            return model.count
         }
     }
     
@@ -119,7 +121,16 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
             }
             cell.configuration(model: model[indexPath.row])
             return cell
+        case .popular(let model):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: BasicCollectionViewCell.identifier,
+                for: indexPath) as? BasicCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configuration(model: model[indexPath.row])
+            return cell
         }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -194,28 +205,28 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
             section.boundarySupplementaryItems = supplementaryView
             return section
 
-//        case 2:
-//            //            Top Rate
-//            let item = NSCollectionLayoutItem(
-//                layoutSize: NSCollectionLayoutSize(
-//                    widthDimension: .fractionalWidth(1),
-//                    heightDimension: .fractionalHeight(1)
-//                )
-//            )
-//            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-//
-//            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
-//                layoutSize: NSCollectionLayoutSize(
-//                    widthDimension: .fractionalWidth(0.8),
-//                    heightDimension: .absolute(520))
-//                ,subitem: item,
-//                count: 1
-//            )
-//
-//            let section = NSCollectionLayoutSection(group: groupHorizontal)
-//            section.orthogonalScrollingBehavior = .groupPaging
-//            section.boundarySupplementaryItems = supplementaryView
-//            return section
+        case 2:
+//            Popular
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalHeight(1)
+                )
+            )
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+
+            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.8),
+                    heightDimension: .absolute(520))
+                ,subitem: item,
+                count: 1
+            )
+
+            let section = NSCollectionLayoutSection(group: groupHorizontal)
+            section.orthogonalScrollingBehavior = .groupPaging
+            section.boundarySupplementaryItems = supplementaryView
+            return section
 //        case 3:
 ////            Up Coming
 //            let item = NSCollectionLayoutItem(
