@@ -33,7 +33,7 @@ class BrowserView: UIViewController {
         aCollection.isHidden = true
         aCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         aCollection.register(HeaderTitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderTitleCollectionReusableView.identifier)
-        aCollection.register(BasicMovieCollectionViewCell.self, forCellWithReuseIdentifier: BasicMovieCollectionViewCell.identifier)
+        aCollection.register(BasicCollectionViewCell.self, forCellWithReuseIdentifier: BasicCollectionViewCell.identifier)
         return aCollection
     }()
     
@@ -116,25 +116,25 @@ extension BrowserView: UICollectionViewDelegate, UICollectionViewDataSource {
         let section = dataBrowser[indexPath.section]
         switch section {
         case .upComing(let model):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicMovieCollectionViewCell.identifier, for: indexPath) as? BasicMovieCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicCollectionViewCell.identifier, for: indexPath) as? BasicCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configuration(model: model[indexPath.row])
             return cell
         case .popularMovies(let model):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicMovieCollectionViewCell.identifier, for: indexPath) as? BasicMovieCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicCollectionViewCell.identifier, for: indexPath) as? BasicCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configuration(model: model[indexPath.row])
             return cell
         case .nowPlaying(let model):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicMovieCollectionViewCell.identifier, for: indexPath) as? BasicMovieCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicCollectionViewCell.identifier, for: indexPath) as? BasicCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configuration(model: model[indexPath.row])
             return cell
         case .topRate(let model):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicMovieCollectionViewCell.identifier, for: indexPath) as? BasicMovieCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicCollectionViewCell.identifier, for: indexPath) as? BasicCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configuration(model: model[indexPath.row])
