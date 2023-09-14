@@ -105,5 +105,17 @@ struct Mapper {
             }
         return modelCell
     }
+    
+    func tvTopRate(model: TVTopRateResponseEntity) -> [TvTopRateViewModelCell] {
+        let modelCell = model.results.compactMap {
+            TvTopRateViewModelCell(
+                id: $0.id,
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + $0.posterPath),
+                title: $0.originalName,
+                overview: $0.overview
+            )
+            }
+        return modelCell
+    }
         
 }
