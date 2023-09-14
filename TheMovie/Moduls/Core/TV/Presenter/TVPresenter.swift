@@ -9,11 +9,14 @@ import Foundation
 
 enum TVShowType {
     case airToday(model: [TvAiringTodayViewModelCell])
+    case onAir(model: [TvOnAirViewModelCell])
     
     var title: String {
         switch self {
         case .airToday:
             return "Air Today"
+        case .onAir:
+            return "On Air"
         }
     }
 }
@@ -25,6 +28,9 @@ protocol TVPresentable: AnyObject {
     // MARK: - Methods
     func fetchTvShows()
     func mappingTvAir(model: TVAiringTodayResponsesEntity)
+    func mappingTvOnAir(model: TVOnAirResponseEntity)
+    
+    func didFailured(message: String)
 }
 
 class TVPresenter: TVPresentable {
@@ -46,12 +52,21 @@ class TVPresenter: TVPresentable {
     func fetchTvShows() {
 //        Call all endPoints
         interactor.getTvAirToday()
+        interactor.getTvOnAir()
     }
     
     func mappingTvAir(model: TVAiringTodayResponsesEntity) {
         let modelCell = mapper.tvAiring(model: model)
         dataTv.append(.airToday(model: modelCell))
+    }
+    
+    func mappingTvOnAir(model: TVOnAirResponseEntity) {
+        let modelCell = mapper.tvOnAir(model: model)
+        dataTv.append(.onAir(model: modelCell))
         view?.showTvShows(model: dataTv)
     }
     
+    func didFailured(message: String) {
+        print(message)
+    }
 }

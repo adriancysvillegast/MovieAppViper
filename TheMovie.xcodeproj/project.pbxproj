@@ -36,6 +36,9 @@
 		0982BBDF2AB2523500C60475 /* TVService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBDE2AB2523500C60475 /* TVService.swift */; };
 		0982BBE12AB25D2100C60475 /* TVRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBE02AB25D2100C60475 /* TVRouter.swift */; };
 		0982BBE32AB2618300C60475 /* TvAiringTodayViewModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BBE22AB2618300C60475 /* TvAiringTodayViewModelCell.swift */; };
+		0982BC0A2AB35A9200C60475 /* TVOnAirResponseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BC092AB35A9200C60475 /* TVOnAirResponseEntity.swift */; };
+		0982BC0C2AB35AE100C60475 /* TVOnAirEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BC0B2AB35AE100C60475 /* TVOnAirEntity.swift */; };
+		0982BC0E2AB35D7D00C60475 /* TvOnAirViewModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982BC0D2AB35D7D00C60475 /* TvOnAirViewModelCell.swift */; };
 		098F8D1C2AAD448700BA9F2C /* UpComingResponseEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F8D1B2AAD448700BA9F2C /* UpComingResponseEntity.swift */; };
 		098F8D1E2AAD452200BA9F2C /* UpComingEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F8D1D2AAD452200BA9F2C /* UpComingEntity.swift */; };
 		098F8D202AAD47A900BA9F2C /* UpComingViewModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F8D1F2AAD47A900BA9F2C /* UpComingViewModelCell.swift */; };
@@ -95,6 +98,9 @@
 		0982BBDE2AB2523500C60475 /* TVService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVService.swift; sourceTree = "<group>"; };
 		0982BBE02AB25D2100C60475 /* TVRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVRouter.swift; sourceTree = "<group>"; };
 		0982BBE22AB2618300C60475 /* TvAiringTodayViewModelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvAiringTodayViewModelCell.swift; sourceTree = "<group>"; };
+		0982BC092AB35A9200C60475 /* TVOnAirResponseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVOnAirResponseEntity.swift; sourceTree = "<group>"; };
+		0982BC0B2AB35AE100C60475 /* TVOnAirEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVOnAirEntity.swift; sourceTree = "<group>"; };
+		0982BC0D2AB35D7D00C60475 /* TvOnAirViewModelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvOnAirViewModelCell.swift; sourceTree = "<group>"; };
 		098F8D1B2AAD448700BA9F2C /* UpComingResponseEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingResponseEntity.swift; sourceTree = "<group>"; };
 		098F8D1D2AAD452200BA9F2C /* UpComingEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingEntity.swift; sourceTree = "<group>"; };
 		098F8D1F2AAD47A900BA9F2C /* UpComingViewModelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingViewModelCell.swift; sourceTree = "<group>"; };
@@ -362,6 +368,8 @@
 			children = (
 				0982BBDA2AB24CA400C60475 /* TVAiringTodayResponsesEntity.swift */,
 				0982BBDC2AB24D1300C60475 /* TVAiringEntity.swift */,
+				0982BC092AB35A9200C60475 /* TVOnAirResponseEntity.swift */,
+				0982BC0B2AB35AE100C60475 /* TVOnAirEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -483,6 +491,7 @@
 				098F8D1F2AAD47A900BA9F2C /* UpComingViewModelCell.swift */,
 				0982BBA42AAE4DFB00C60475 /* DetailMovieViewModelCell.swift */,
 				0982BBE22AB2618300C60475 /* TvAiringTodayViewModelCell.swift */,
+				0982BC0D2AB35D7D00C60475 /* TvOnAirViewModelCell.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -643,12 +652,14 @@
 				0982BBC92AB0F21600C60475 /* AuthView.swift in Sources */,
 				09D21C502AABA7D7000CADBD /* BrowserService.swift in Sources */,
 				0940D9FE2AAB90DD00ABD584 /* PopularMoviesResponseEntity.swift in Sources */,
+				0982BC0A2AB35A9200C60475 /* TVOnAirResponseEntity.swift in Sources */,
 				098F8D1E2AAD452200BA9F2C /* UpComingEntity.swift in Sources */,
 				099E15592AACC159003C916E /* AlertHelper.swift in Sources */,
 				09D21C572AABDC7D000CADBD /* Mapper.swift in Sources */,
 				099E156B2AACE7BC003C916E /* TopRateViewModelCell.swift in Sources */,
 				0982BBA52AAE4DFB00C60475 /* DetailMovieViewModelCell.swift in Sources */,
 				098F8D2D2AAE08AD00BA9F2C /* DetailService.swift in Sources */,
+				0982BC0E2AB35D7D00C60475 /* TvOnAirViewModelCell.swift in Sources */,
 				0940D9D82AAB88DC00ABD584 /* AppDelegate.swift in Sources */,
 				0940D9FA2AAB8E7D00ABD584 /* BrowserInteractor.swift in Sources */,
 				099E15692AACE6B9003C916E /* TopRateResponseEntity.swift in Sources */,
@@ -673,6 +684,7 @@
 				0982BBC72AB0F11B00C60475 /* AuthPresenter.swift in Sources */,
 				0940D9DA2AAB88DC00ABD584 /* SceneDelegate.swift in Sources */,
 				099E15632AACDB02003C916E /* BasicCollectionViewCell.swift in Sources */,
+				0982BC0C2AB35AE100C60475 /* TVOnAirEntity.swift in Sources */,
 				0982BBC52AB0EAA700C60475 /* AuthInteractor.swift in Sources */,
 				098F8D372AAE19A000BA9F2C /* DetailMovieView.swift in Sources */,
 				098F8D202AAD47A900BA9F2C /* UpComingViewModelCell.swift in Sources */,

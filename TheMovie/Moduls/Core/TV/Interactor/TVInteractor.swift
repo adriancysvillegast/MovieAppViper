@@ -12,6 +12,7 @@ protocol TVInteractable: AnyObject {
     var presenter: TVPresentable? { get }
     // MARK: - Methods
     func getTvAirToday()
+    func getTvOnAir()
 }
 
 class TVInteractor: TVInteractable {
@@ -30,9 +31,19 @@ class TVInteractor: TVInteractable {
             case .success(let model):
                 self.presenter?.mappingTvAir(model: model)
             case .failure(let error):
-                print(error)
+                self.presenter?.didFailured(message: error.localizedDescription)
             }
         }
     }
     
+    func getTvOnAir() {
+        service.fetchTVOnAir { result in
+            switch result {
+            case .success(let model):
+                self.presenter?.mappingTvOnAir(model: model)
+            case .failure(let error):
+                self.presenter?.didFailured(message: error.localizedDescription)
+            }
+        }
+    }
 }
