@@ -68,4 +68,8 @@ class BasicCollectionViewCell: UICollectionViewCell {
     func configuration(model: TvOnAirViewModelCell) {
         aImageCover.sd_setImage(with: model.posterPath)
     }
+    
+    func configuration(model: TvPopularViewModelCell) {
+        aImageCover.sd_setImage(with: model.posterPath)
+    }
 }

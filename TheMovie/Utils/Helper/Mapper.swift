@@ -93,5 +93,17 @@ struct Mapper {
             }
         return modelCell
     }
+    
+    func tvPopular(model: TVPopularResponseEntity) -> [TvPopularViewModelCell] {
+        let modelCell = model.results.compactMap {
+            TvPopularViewModelCell(
+                id: $0.id,
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + $0.posterPath),
+                title: $0.originalName,
+                overview: $0.overview
+            )
+            }
+        return modelCell
+    }
         
 }
