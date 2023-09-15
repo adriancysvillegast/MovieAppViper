@@ -23,10 +23,8 @@ class DetailTvService {
                 expecting: DetailTvResponseEntity.self) { result in
                     switch result {
                     case .success(let model):
-                        print(model)
                         completion(.success(model))
                     case .failure(let error):
-                        print(error)
                         completion(.failure(error))
                     }
                 }

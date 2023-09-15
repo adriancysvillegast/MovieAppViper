@@ -29,7 +29,6 @@ class DetailTvInteractor: DetailTvInteractable {
         service.fetchDetailTvShow(withTvID: idTV) { result in
             switch result {
             case .success(let model):
-                print(model)
                 self.presenter?.mappingDetailTV(model: model)
             case .failure(let error):
                 self.presenter?.didFailure(message: error.localizedDescription)

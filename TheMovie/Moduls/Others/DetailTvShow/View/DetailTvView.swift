@@ -85,7 +85,6 @@ extension DetailTvView: DetailTvViewDelegate {
     
     func showDetail(model: [DetailTVSections], title: String) {
         DispatchQueue.main.async {
-            print(model)
             self.title = title
             self.detail = model
             self.aCollectionView.reloadData()
