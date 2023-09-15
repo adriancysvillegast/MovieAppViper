@@ -37,7 +37,7 @@ protocol TVPresentable: AnyObject {
     func mappingTvOnAir(model: TVOnAirResponseEntity)
     func mappingTvPopular(model: TVPopularResponseEntity)
     func mappingTvTopRate(model: TVTopRateResponseEntity)
-    
+    func didTapTv(id: String)
     func didFailured(message: String)
 }
 
@@ -87,8 +87,11 @@ class TVPresenter: TVPresentable {
         view?.showTvShows(model: dataTv)
     }
     
+    func didTapTv(id: String) {
+        router.showDetailTV(idTV: id)
+    }
     
     func didFailured(message: String) {
-        print(message)
+        view?.showError(message: message)
     }
 }
