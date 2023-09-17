@@ -74,7 +74,7 @@ struct Mapper {
         let modelCell = model.results.compactMap {
             TvAiringTodayViewModelCell(
                 id: $0.id,
-                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + $0.posterPath),
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + ($0.posterPath ?? "") ),
                 title: $0.originalName,
                 overview: $0.overview
             )
@@ -86,7 +86,7 @@ struct Mapper {
         let modelCell = model.results.compactMap {
             TvOnAirViewModelCell(
                 id: $0.id,
-                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + $0.posterPath),
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + ($0.posterPath ?? "")),
                 title: $0.originalName,
                 overview: $0.overview
             )
@@ -137,4 +137,15 @@ struct Mapper {
         return modelCell
     }
         
+    func searchResult(model: SearchResponseEntity) -> [SearchResultViewModelCell] {
+        let modelCell = model.results.compactMap {
+            SearchResultViewModelCell(
+                id: $0.id,
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + ($0.posterPath ?? "")),
+                title: $0.title
+            )
+            }
+        return modelCell
+    }
+
 }

@@ -24,6 +24,7 @@ class TVService {
                     case .success(let model):
                         completion(.success(model))
                     case .failure(let error):
+                        print(error)
                         completion(.failure(error))
                     }
                 }
