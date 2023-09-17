@@ -32,7 +32,8 @@ class TabBarViewController: UITabBarController {
     func setupVCs() {
             viewControllers = [
                 createNavController(for: BrowserRouter().showBrowser(), title: NSLocalizedString("Movies", comment: ""), image: UIImage(systemName: "play.tv")!),
-                createNavController(for: TVRouter().showTVModul(), title: NSLocalizedString("TV Shows", comment: ""), image: UIImage(systemName: "play.rectangle.on.rectangle")!)
+                createNavController(for: TVRouter().showTVModul(), title: NSLocalizedString("TV Shows", comment: ""), image: UIImage(systemName: "play.rectangle.on.rectangle")!),
+                createNavController(for: SearchRouter().showSearch(), title: NSLocalizedString("Search", comment: ""), image: UIImage(systemName: "magnifyingglass.circle")!)
             ]
         }
 

@@ -1,43 +1,54 @@
 //
-//  TVView.swift
+//  SearchView.swift
 //  TheMovie
 //
-//  Created by Adriancys Jesus Villegas Toro on 13/9/23.
+//  Created by Adriancys Jesus Villegas Toro on 15/9/23.
 //
 
 import UIKit
-// MARK: - TVViewDelegate
-protocol TVViewDelegate: AnyObject {
-    func showTvShows(model: [TVShowType])
-    func showError(message: String)
+
+protocol SearchViewDelegate: AnyObject {
+    func updateView(model: [GenreSection])
+    func didFailure(message: String)
 }
 
-// MARK: - TVView
-class TVView: UIViewController {
+class SearchView: UIViewController {
 
     // MARK: - Properties
-    private let presenter: TVPresentable
-    private var tvShows: [TVShowType] = []
+    private let presenter: SearchPresentable
+    private var genres: [GenreSection] = []
+    
+    private lazy var aSearchBar: UISearchController = {
+        let aSearchBar = UISearchController()
+        //UISearchController(searchResultsController: SearchResultView())
+        aSearchBar.searchBar.placeholder = "Movies and Tv Shows"
+        aSearchBar.searchBar.searchBarStyle = .minimal
+        aSearchBar.definesPresentationContext = true
+        aSearchBar.searchResultsUpdater = self
+        aSearchBar.searchBar.delegate = self
+        return aSearchBar
+    }()
     
     private lazy var aCollectionView: UICollectionView = {
         let aCollection = UICollectionView(frame: .zero,
-                                           collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { sections, _ in
-            return TVView.createSectionLayout(with: sections)
+                                           collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { section, _ in
+            SearchView.createSectionLayout(with: section)
         }))
         aCollection.backgroundColor = .systemBackground
         aCollection.delegate = self
         aCollection.dataSource = self
         aCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         aCollection.register(HeaderTitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderTitleCollectionReusableView.identifier)
-        aCollection.register(BasicCollectionViewCell.self, forCellWithReuseIdentifier: BasicCollectionViewCell.identifier)
+        aCollection.register(GenresCollectionViewCell.self, forCellWithReuseIdentifier: GenresCollectionViewCell.identifier)
         return aCollection
     }()
     
     // MARK: - Init
     
-    init(presenter: TVPresentable) {
+    init(presenter: SearchPresentable) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -45,100 +56,98 @@ class TVView: UIViewController {
     }
     
     // MARK: - LifeCycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.fetchTvShows()
+        presenter.getGenres()
         setUpView()
+//        debo hacer el collectionview para mostarr los generos y debo hacer la peticion para obtener los generos para tv shows
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         aCollectionView.frame = view.bounds
     }
-
-    // MARK: - SetUpView
     
+    // MARK: - SetUpView
     private func setUpView() {
         view.backgroundColor = .systemBackground
+        navigationItem.searchController = aSearchBar
         view.addSubview(aCollectionView)
     }
-
     // MARK: - Methods
     
-
 }
-// MARK: - TVViewDelegate
-extension TVView: TVViewDelegate {
-    func showTvShows(model: [TVShowType]) {
+
+// MARK: - SearchViewDelegate
+extension SearchView: SearchViewDelegate{
+    func updateView(model: [GenreSection]) {
         DispatchQueue.main.async {
-            self.tvShows = model
+            self.genres = model
             self.aCollectionView.reloadData()
         }
     }
     
-    func showError(message: String) {
+ 
+    func didFailure(message: String) {
         DispatchQueue.main.async {
             AlertHelper.showAlert(message: message, navigation: self)
         }
     }
-    
 }
 
+
+extension SearchView: UISearchResultsUpdating, UISearchBarDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let query = searchBar.text
+        presenter.getQuery(searchText: query)
+    }
+    
+    
+}
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension SearchView: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return tvShows.count
+        return genres.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = tvShows[section]
+        let section = genres[section]
         switch section {
-        case .airToday(let model):
+        case .movie(let model):
             return model.count
-        case .onAir(let model):
-            return model.count
-        case .popular(let model):
-            return model.count
-        case .topRate(let model):
+        case .tv(let model):
             return model.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = tvShows[indexPath.section]
+        
+        let section = genres[indexPath.section]
         switch section {
-        case .airToday(let model):
+        case .movie(let model):
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: BasicCollectionViewCell.identifier,
-                for: indexPath) as? BasicCollectionViewCell else {
+                withReuseIdentifier: GenresCollectionViewCell.identifier,
+                for: indexPath) as? GenresCollectionViewCell
+            else{
                 return UICollectionViewCell()
             }
+            
             cell.configuration(model: model[indexPath.row])
             return cell
-        case .onAir(let model):
+        case .tv(let model):
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: BasicCollectionViewCell.identifier,
-                for: indexPath) as? BasicCollectionViewCell else {
+                withReuseIdentifier: GenresCollectionViewCell.identifier,
+                for: indexPath) as? GenresCollectionViewCell
+            else{
                 return UICollectionViewCell()
             }
-            cell.configuration(model: model[indexPath.row])
-            return cell
-        case .popular(let model):
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: BasicCollectionViewCell.identifier,
-                for: indexPath) as? BasicCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            cell.configuration(model: model[indexPath.row])
-            return cell
-        case .topRate(let model):
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: BasicCollectionViewCell.identifier,
-                for: indexPath) as? BasicCollectionViewCell else {
-                return UICollectionViewCell()
-            }
+            
             cell.configuration(model: model[indexPath.row])
             return cell
         }
@@ -152,23 +161,10 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
             for: indexPath) as? HeaderTitleCollectionReusableView else {
             return UICollectionReusableView()
         }
-        header.configure(with: tvShows[indexPath.section].title)
+        header.configure(with: genres[indexPath.section].title)
         return header
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let section = tvShows[indexPath.section]
-        switch section {
-        case .topRate(let model):
-            presenter.didTapTv(id: model[indexPath.row].id.description)
-        case .popular(let model):
-            presenter.didTapTv(id: model[indexPath.row].id.description)
-        case .onAir(let model):
-            presenter.didTapTv(id: model[indexPath.row].id.description)
-        case .airToday(let model):
-            presenter.didTapTv(id: model[indexPath.row].id.description)
-        }
-    }
     
     static func createSectionLayout(with section: Int) -> NSCollectionLayoutSection {
         
@@ -183,7 +179,7 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
         
         switch section{
         case 0:
-//            AirToday
+//            Genre Movie
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
@@ -197,84 +193,63 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
             
             let groupHorizontal = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.98),
-                    heightDimension: .absolute(300))
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalHeight(1))
                 ,subitem: item,
                 count: 2
             )
             
-            let section = NSCollectionLayoutSection(group: groupHorizontal)
+            groupHorizontal.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0)
+            
+            let groupVertical = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.98),
+                    heightDimension: .absolute(300))
+                ,subitem: groupHorizontal,
+                count: 3
+            )
+            
+            let section = NSCollectionLayoutSection(group: groupVertical)
             section.orthogonalScrollingBehavior = .groupPaging
             section.boundarySupplementaryItems = supplementaryView
             return section
             
         case 1:
-//            On Air
+//            Genre TV
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
                     heightDimension: .fractionalHeight(1)
                 )
             )
-            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
-
+            item.contentInsets = NSDirectionalEdgeInsets(
+                top: 2, leading: 2,
+                bottom: 2, trailing: 2
+            )
+            
             let groupHorizontal = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.98),
-                    heightDimension: .absolute(300))
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalHeight(1))
                 ,subitem: item,
                 count: 2
             )
-
-            let section = NSCollectionLayoutSection(group: groupHorizontal)
-            section.orthogonalScrollingBehavior = .groupPaging
-            section.boundarySupplementaryItems = supplementaryView
-            return section
-
-        case 2:
-//            Popular
-            let item = NSCollectionLayoutItem(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
-                    heightDimension: .fractionalHeight(1)
-                )
-            )
-            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-
-            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.8),
-                    heightDimension: .absolute(520))
-                ,subitem: item,
-                count: 1
-            )
-
-            let section = NSCollectionLayoutSection(group: groupHorizontal)
-            section.orthogonalScrollingBehavior = .groupPaging
-            section.boundarySupplementaryItems = supplementaryView
-            return section
-        case 3:
-//            Top Rate
-            let item = NSCollectionLayoutItem(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
-                    heightDimension: .fractionalHeight(1)
-                )
-            )
-            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
-
-            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
+            
+            groupHorizontal.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0)
+            
+            let groupVertical = NSCollectionLayoutGroup.vertical(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(0.98),
                     heightDimension: .absolute(300))
-                ,subitem: item,
-                count: 2
+                ,subitem: groupHorizontal,
+                count: 3
             )
-
-            let section = NSCollectionLayoutSection(group: groupHorizontal)
-            section.orthogonalScrollingBehavior = .groupPaging
+            
+            let section = NSCollectionLayoutSection(group: groupVertical)
+            section.orthogonalScrollingBehavior = .continuous
             section.boundarySupplementaryItems = supplementaryView
             return section
+            
         default :
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
@@ -305,8 +280,6 @@ extension TVView: UICollectionViewDelegate, UICollectionViewDataSource {
             section.orthogonalScrollingBehavior = .groupPaging
             return section
         }
-        
     }
     
 }
-
