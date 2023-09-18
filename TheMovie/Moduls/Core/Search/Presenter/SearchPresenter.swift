@@ -10,8 +10,8 @@ import Foundation
 
 // MARK: - GenreSection
 enum GenreSection {
-    case movie(model: [String])
-    case tv(model: [String])
+    case movie(model: [GenreViewModelCell])
+    case tv(model: [GenreViewModelCell])
     
     var title: String {
         switch self {
@@ -34,6 +34,7 @@ protocol SearchPresentable: AnyObject {
     func mappingGenresMovies(model: ResultGenreResponseEntity)
     func mappingGenresTV(model: ResultGenreResponseEntity)
     func getQuery(searchText: String?)
+    func didTap(idGenre: String, nameGenre: String)
     func didFailure(message: String)
     
 }
@@ -66,17 +67,13 @@ class SearchPresenter: SearchPresentable {
     }
     
     func mappingGenresMovies(model: ResultGenreResponseEntity) {
-        let genreMovie = model.genres.compactMap {
-            $0.name
-        }
+        let genreMovie = mapper.mappingGenre(model: model)
         genres.append(.movie(model: genreMovie))
         
     }
     
     func mappingGenresTV(model: ResultGenreResponseEntity) {
-        let genreTV = model.genres.compactMap {
-            $0.name
-        }
+        let genreTV = mapper.mappingGenre(model: model)
         genres.append(.tv(model: genreTV))
         view?.updateView(model: genres)
     }
@@ -95,5 +92,8 @@ class SearchPresenter: SearchPresentable {
         router.showResults(query: search)
     }
     
-
+// MARK: - Genres
+    func didTap(idGenre: String, nameGenre: String) {
+        router.fetchListByGenre(idGenre: idGenre, nameGenre: nameGenre)
+    }
 }

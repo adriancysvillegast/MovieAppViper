@@ -48,9 +48,9 @@ class GenresCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Methods
     
-    func configuration(model: String) {
+    func configuration(model: GenreViewModelCell) {
         guard let color = colorsArray.randomElement() else { return }
         aView.backgroundColor = color
-        aLabel.text = model
+        aLabel.text = model.name
     }
 }

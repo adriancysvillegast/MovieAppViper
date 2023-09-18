@@ -15,6 +15,7 @@ protocol SearchResultRouting: AnyObject {
 // MARK: - SearchResultRouter
 
 class SearchResultRouter: SearchResultRouting {
+    
     func showResult(query: String, fromViewController: UIViewController) {
         let interactor = SearchResultInteractor()
         let presenter = SearchResultPresenter(query: query, interactor: interactor)

@@ -148,4 +148,21 @@ struct Mapper {
         return modelCell
     }
 
+    func mappingGenre(model: ResultGenreResponseEntity) -> [GenreViewModelCell] {
+        let modelCell = model.genres.compactMap {
+            GenreViewModelCell(id: $0.id.description, name: $0.name)
+        }
+        return modelCell
+    }
+    
+    func mappingListByGenre(model: ListByGenrerResponseEntity) -> [ListByGenreViewModelCell] {
+        let modelCell = model.results.compactMap {
+            ListByGenreViewModelCell(
+                id: $0.id,
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + ($0.posterPath ?? "")),
+                title: $0.title
+            )
+        }
+        return modelCell
+    }
 }

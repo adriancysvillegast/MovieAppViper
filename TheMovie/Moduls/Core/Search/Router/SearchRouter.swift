@@ -12,9 +12,11 @@ import UIKit
 protocol SearchRouting: AnyObject {
     var searchView: SearchView? { get }
     var searchResult: SearchResultRouting? { get }
+    var listGenreRouter: ListByGenreRouting? { get }
     
     func showSearch() -> UIViewController
     func showResults(query: String)
+    func fetchListByGenre(idGenre: String, nameGenre: String)
 }
 
 // MARK: - SearchRouter
@@ -22,10 +24,11 @@ class SearchRouter: SearchRouting {
     weak var searchView: SearchView?
 
     var searchResult: SearchResultRouting?
-
+    var listGenreRouter: ListByGenreRouting?
     
     func showSearch() -> UIViewController {
         searchResult = SearchResultRouter()
+        listGenreRouter = ListByGenreRouter()
         
         let interactor = SearchInteractor()
         let presenter = SearchPresenter(interactor: interactor, router: self)
@@ -36,10 +39,19 @@ class SearchRouter: SearchRouting {
         return view
     }
     
+    
     func showResults(query: String) {
         guard let fromController = searchView else { return }
         //llamar al router
         searchResult?.showResult(query: query, fromViewController: fromController)
     }
+    
+    func fetchListByGenre(idGenre: String, nameGenre: String) {
+        guard let fromController = searchView else { return }
+        //llamar al router
+        listGenreRouter?.showList(idGenre: idGenre, nameGenre: nameGenre, fromController: fromController)
+    }
+    
+ 
     
 }
