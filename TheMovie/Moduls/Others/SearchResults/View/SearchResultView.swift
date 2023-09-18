@@ -129,6 +129,18 @@ extension SearchResultView: UICollectionViewDelegate, UICollectionViewDataSource
         return header
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let section = results[indexPath.section]
+        switch section {
+        case .movie(let model):
+            presenter.didTapMovie(idMovie: model[indexPath.row].id.description)
+        case .tv(let model):
+            presenter.didTapTV(idTv: model[indexPath.row].id.description)
+        }
+    }
+    
     static func createSectionLayout(with section: Int) -> NSCollectionLayoutSection {
         
         let supplementaryView = [

@@ -142,7 +142,7 @@ struct Mapper {
             SearchResultViewModelCell(
                 id: $0.id,
                 posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + ($0.posterPath ?? "")),
-                title: $0.title
+                title: ($0.title ?? $0.originalTitle) ?? "Without Title"
             )
             }
         return modelCell
