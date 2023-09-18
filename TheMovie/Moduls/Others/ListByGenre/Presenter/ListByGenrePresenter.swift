@@ -13,6 +13,7 @@ protocol ListByGenrePresentable: AnyObject {
     
     func getList()
     func mappingList(model: ListByGenrerResponseEntity)
+    func didTap(id: String)
     func didFailure(message: String)
     
 }
@@ -24,31 +25,48 @@ class ListByGenrePresenter: ListByGenrePresentable {
     let interactor: ListByGenreInteractable
     var idGenre: String
     var name: String
+    var type: TypeList
     private let mapper: Mapper
+    private var router: ListByGenreRouting
     // MARK: - Init
     
-    init( idGenre: String,
-          name: String,
+    init(idGenre: String,
+         name: String, type: TypeList,
           interactor: ListByGenreInteractable,
-          mapper: Mapper = Mapper() ) {
+         mapper: Mapper = Mapper(), router: ListByGenreRouting ) {
         
         self.interactor = interactor
         self.idGenre = idGenre
         self.mapper = mapper
         self.name = name
+        self.type = type
+        self.router = router
     }
     
     func getList() {
-        interactor.getList(idGenre: idGenre)
+        interactor.getList(idGenre: idGenre, type: type)
     }
     
     func mappingList(model: ListByGenrerResponseEntity) {
-        let modelCell = mapper.mappingListByGenre(model: model)
-        view?.updateView(model: modelCell, nameGenre: name)
+        if type == .movie {
+            let modelCell = mapper.mappingListByGenre(model: model)
+            view?.updateView(model: modelCell, nameGenre: name)
+        } else {
+            let modelCell = mapper.mappingListByGenre(model: model)
+            view?.updateView(model: modelCell, nameGenre: name)
+        }
+       
     }
     
     func didFailure(message: String) {
         view?.didFailure(message: message)
     }
     
+    func didTap(id: String) {
+        if type == .movie{
+            router.showDetailMovie(id: id)
+        }else {
+            router.showDetailTv(id: id)
+        }
+    }
 }

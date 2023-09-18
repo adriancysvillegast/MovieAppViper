@@ -16,7 +16,7 @@ protocol SearchRouting: AnyObject {
     
     func showSearch() -> UIViewController
     func showResults(query: String)
-    func fetchListByGenre(idGenre: String, nameGenre: String)
+    func fetchListByGenre(idGenre: String, nameGenre: String, type: TypeList)
 }
 
 // MARK: - SearchRouter
@@ -46,10 +46,10 @@ class SearchRouter: SearchRouting {
         searchResult?.showResult(query: query, fromViewController: fromController)
     }
     
-    func fetchListByGenre(idGenre: String, nameGenre: String) {
+    func fetchListByGenre(idGenre: String, nameGenre: String, type: TypeList) {
         guard let fromController = searchView else { return }
         //llamar al router
-        listGenreRouter?.showList(idGenre: idGenre, nameGenre: nameGenre, fromController: fromController)
+        listGenreRouter?.showList(idGenre: idGenre, nameGenre: nameGenre, fromController: fromController, type: type )
     }
     
  

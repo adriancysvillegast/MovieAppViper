@@ -76,7 +76,7 @@ class DetailTvPresenter: DetailTvPresentable {
         detailTv.append(.popularity(model: modelCell.popularity))
         detailTv.append(.prodCompanies(model: modelCell.prodCompanies))
         
-        view?.showDetail(model: detailTv, title: model.name)
+        view?.showDetail(model: detailTv, title: model.name ?? model.originalName ?? " ")
     }
     
     func didFailure(message: String) {
