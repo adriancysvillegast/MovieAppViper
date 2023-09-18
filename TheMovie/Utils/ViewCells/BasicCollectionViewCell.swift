@@ -76,4 +76,9 @@ class BasicCollectionViewCell: UICollectionViewCell {
     func configuration(model: TvTopRateViewModelCell) {
         aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
     }
+    
+    func configuration(model: ListByGenreViewModelCell) {
+        aImageCover.contentMode = .scaleToFill
+        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+    }
 }

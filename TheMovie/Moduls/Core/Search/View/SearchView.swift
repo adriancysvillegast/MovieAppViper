@@ -165,6 +165,16 @@ extension SearchView: UICollectionViewDelegate, UICollectionViewDataSource {
         return header
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let sections = genres[indexPath.section]
+        switch sections {
+        case .movie(let model):
+            presenter.didTap(idGenre: model[indexPath.row].id, nameGenre: model[indexPath.row].name)
+        case .tv(let model):
+            presenter.didTap(idGenre: model[indexPath.row].id, nameGenre: model[indexPath.row].name)
+        }
+    }
     
     static func createSectionLayout(with section: Int) -> NSCollectionLayoutSection {
         
