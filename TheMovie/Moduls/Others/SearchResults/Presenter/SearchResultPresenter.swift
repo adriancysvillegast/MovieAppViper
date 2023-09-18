@@ -32,6 +32,8 @@ protocol SearchResultPresentable: AnyObject {
     func fetchQuery()
     func mappingSearchMovie(model: SearchResponseEntity)
     func mappingSearchTv(model: SearchResponseEntity)
+    func didTapMovie(idMovie: String)
+    func didTapTV(idTv: String)
     func didFailure(message: String)
 }
 
@@ -45,10 +47,11 @@ class SearchResultPresenter: SearchResultPresentable {
     let interactor: SearchResultInteractable
     var searchResult: [SearchSection] = []
     private var mapper: Mapper
-    
-    init(query: String, interactor: SearchResultInteractable, mapper: Mapper = Mapper() ) {
+    private let router: SearchResultRouting
+    init(query: String, interactor: SearchResultInteractable, router: SearchResultRouting, mapper: Mapper = Mapper() ) {
         self.query = query
         self.interactor = interactor
+        self.router = router
         self.mapper = mapper
     }
     
@@ -69,5 +72,13 @@ class SearchResultPresenter: SearchResultPresentable {
     
     func didFailure(message: String) {
         view?.didFailure(message: message)
+    }
+    
+    func didTapMovie(idMovie: String) {
+        router.showDetailMovie(idMovie: idMovie)
+    }
+    
+    func didTapTV(idTv: String) {
+        router.showDetailTv(idTv: idTv)
     }
 }

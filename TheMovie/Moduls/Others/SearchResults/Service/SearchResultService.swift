@@ -19,7 +19,7 @@ class SearchResultService {
         query: String,
         completion: @escaping (Result<SearchResponseEntity, Error>) -> Void ) {
             CoreService.shared.get(
-                url: URL(string: baseURL + "/search/movie?query=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&api_key=" + apiToken),
+                url: URL(string: baseURL + "/search/tv?query=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&api_key=" + apiToken),
                 expecting: SearchResponseEntity.self) { result in
                     switch result {
                     case .success(let model):
