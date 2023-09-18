@@ -11,5 +11,4 @@ struct SearchResponseEntity: Codable {
     let page: Int
     let results: [SearchEntity]
     let totalPages, totalResults: Int
-
 }

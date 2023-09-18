@@ -107,6 +107,12 @@ extension ListByGenreView: UICollectionViewDelegate, UICollectionViewDataSource 
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let id = String(listByGenre[indexPath.row].id)
+        presenter.didTap(id: id )
+    }
+    
     static func createSectionLayout(with section: Int) -> NSCollectionLayoutSection {
         
         switch section{

@@ -120,10 +120,10 @@ struct Mapper {
     
     func detailTV(model: DetailTvResponseEntity) -> DetailTvViewModelCell {
         //Images
-        let genres = model.genres.compactMap { $0.name }.joined(separator: ", ")
+        let genres = model.genres?.compactMap { $0.name }.joined(separator: ", ") ?? ""
         var companyURL: [URL?] = []
         
-        let companiesImages = model.productionCompanies.compactMap{  $0.logoPath }
+        let companiesImages = model.productionCompanies.compactMap{ $0.logoPath }
         companiesImages.forEach { companyURL.append(URL(string: "https://image.tmdb.org/t/p/w200" + $0))
         }
         
@@ -132,7 +132,7 @@ struct Mapper {
             description = model.overview
         }
         
-        let modelCell = DetailTvViewModelCell(artWork: URL(string: "https://image.tmdb.org/t/p/w200" + (model.posterPath ?? "")), title: model.name, description: description, genre: genres, language: model.originalLanguage, popularity: model.popularity.description, prodCompanies: companyURL)
+        let modelCell = DetailTvViewModelCell(artWork: URL(string: "https://image.tmdb.org/t/p/w200" + (model.posterPath ?? "")), title: model.name ?? "", description: description, genre: genres, language: model.originalLanguage ?? "", popularity: model.popularity?.description ?? "", prodCompanies: companyURL)
         
         return modelCell
     }
@@ -160,7 +160,7 @@ struct Mapper {
             ListByGenreViewModelCell(
                 id: $0.id,
                 posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + ($0.posterPath ?? "")),
-                title: $0.title
+                title: $0.title ?? ""
             )
         }
         return modelCell

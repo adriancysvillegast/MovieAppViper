@@ -168,11 +168,12 @@ extension SearchView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let sections = genres[indexPath.section]
+        
         switch sections {
         case .movie(let model):
-            presenter.didTap(idGenre: model[indexPath.row].id, nameGenre: model[indexPath.row].name)
+            presenter.didTap(idGenre: model[indexPath.row].id, nameGenre: model[indexPath.row].name, type: .movie)
         case .tv(let model):
-            presenter.didTap(idGenre: model[indexPath.row].id, nameGenre: model[indexPath.row].name)
+            presenter.didTap(idGenre: model[indexPath.row].id, nameGenre: model[indexPath.row].name, type: .tv)
         }
     }
     

@@ -16,11 +16,26 @@ class ListByGenreService {
     
     // MARK: - Methods
     
-    func getListByGenre(
+    func getListByGenreMovie(
         idGenre: String,
         completion: @escaping (Result<ListByGenrerResponseEntity, Error>) -> Void ) {
             CoreService.shared.get(
                 url: URL(string: baseURL + "/discover/movie?api_key=" + apiToken  + "&with_genres=\(idGenre)"),
+                expecting: ListByGenrerResponseEntity.self) { result in
+                    switch result {
+                    case .success(let model):
+                        completion(.success(model))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+    }
+    
+    func getListByGenreTV(
+        idGenre: String,
+        completion: @escaping (Result<ListByGenrerResponseEntity, Error>) -> Void ) {
+            CoreService.shared.get(
+                url: URL(string: baseURL + "/discover/tv?api_key=" + apiToken  + "&with_genres=\(idGenre)"),
                 expecting: ListByGenrerResponseEntity.self) { result in
                     switch result {
                     case .success(let model):

@@ -11,7 +11,7 @@ import Foundation
 protocol ListByGenreInteractable: AnyObject {
     var presenter: ListByGenrePresentable? { get }
     
-    func getList(idGenre: String)
+    func getList(idGenre: String, type: TypeList)
 }
 
 // MARK: - ListByGenreInteractor
@@ -26,16 +26,29 @@ class ListByGenreInteractor: ListByGenreInteractable {
         self.service = service
     }
     
-    func getList(idGenre: String) {
-        service.getListByGenre(
-            idGenre: idGenre) { result in
-                switch result {
-                case .success(let model):
-                    self.presenter?.mappingList(model: model)
-                case .failure(let error):
-                    self.presenter?.didFailure(message: error.localizedDescription)
+    func getList(idGenre: String, type: TypeList) {
+        if type == .movie {
+            service.getListByGenreMovie(
+                idGenre: idGenre) { result in
+                    switch result {
+                    case .success(let model):
+                        self.presenter?.mappingList(model: model)
+                    case .failure(let error):
+                        self.presenter?.didFailure(message: error.localizedDescription)
+                    }
                 }
-            }
+        }else{
+            service.getListByGenreTV(
+                idGenre: idGenre) { result in
+                    switch result {
+                    case .success(let model):
+                        self.presenter?.mappingList(model: model)
+                    case .failure(let error):
+                        self.presenter?.didFailure(message: error.localizedDescription)
+                    }
+                }
+        }
+        
     }
     
     

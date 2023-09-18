@@ -8,6 +8,10 @@
 import Foundation
 
 
+enum TypeList {
+    case tv
+    case movie
+}
 // MARK: - GenreSection
 enum GenreSection {
     case movie(model: [GenreViewModelCell])
@@ -34,16 +38,14 @@ protocol SearchPresentable: AnyObject {
     func mappingGenresMovies(model: ResultGenreResponseEntity)
     func mappingGenresTV(model: ResultGenreResponseEntity)
     func getQuery(searchText: String?)
-    func didTap(idGenre: String, nameGenre: String)
+    func didTap(idGenre: String, nameGenre: String, type: TypeList)
     func didFailure(message: String)
-    
 }
 
 // MARK: - SearchPresenter
 class SearchPresenter: SearchPresentable {
     
     // MARK: - Properties
-    
     weak var view: SearchViewDelegate?
     weak var viewResults: SearchResultViewDelegate?
     
@@ -92,8 +94,9 @@ class SearchPresenter: SearchPresentable {
         router.showResults(query: search)
     }
     
-// MARK: - Genres
-    func didTap(idGenre: String, nameGenre: String) {
-        router.fetchListByGenre(idGenre: idGenre, nameGenre: nameGenre)
+    // MARK: - Genres
+    
+    func didTap(idGenre: String, nameGenre: String, type: TypeList) {
+        router.fetchListByGenre(idGenre: idGenre, nameGenre: nameGenre, type: type)
     }
 }
