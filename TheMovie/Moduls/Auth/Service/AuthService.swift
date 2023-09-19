@@ -26,5 +26,17 @@ class AuthService {
             }
     }
     
+    func fetchGuestSection(completion: @escaping (Result<GuestSectionResponseEntity, Error>) -> Void) {
+        CoreService.shared.get(
+            url: URL(string: baseURL + "/authentication/guest_session/new"),
+            expecting: GuestSectionResponseEntity.self) { result in
+                switch result {
+                case .success(let model):
+                    completion(.success(model))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
     
 }
