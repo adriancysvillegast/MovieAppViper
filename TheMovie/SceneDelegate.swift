@@ -10,13 +10,20 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let auth = AuthRouter()
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let vc = TabBarViewController()
-        window?.rootViewController = vc
-        window?.makeKeyAndVisible()
+        
+        if auth.isSigned() {
+            let vc = TabBarViewController()
+            window?.rootViewController = vc
+            window?.makeKeyAndVisible()
+        } else {
+            window?.rootViewController = auth.showAuthView()
+            window?.makeKeyAndVisible()
+        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

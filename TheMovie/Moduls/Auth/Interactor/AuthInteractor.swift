@@ -10,24 +10,26 @@ import Foundation
 protocol AuthInteractable: AnyObject {
     // MARK: - Properties
     var presenter: AuthPresentable? { get }
+    var guestSection: String? { get }
+    var tokenExpirationDate: Date? { get }
+    var refreshGuest: Bool? { get }
     // MARK: - Methods
-    func getRequestToken()
-    
+    func fetchGuestSection()
 }
 
 class AuthInteractor: AuthInteractable {
     
     // MARK: - Properties
-    var presenter: AuthPresentable?
+    weak var presenter: AuthPresentable?
     
     private let service: AuthService
     
-    var accessToken: String? {
-        return UserDefaults.standard.string(forKey: "Token")
+    var guestSection: String? {
+        return UserDefaults.standard.string(forKey: "guestSection")
     }
     
-    var refreshToken: String? {
-        return UserDefaults.standard.string(forKey: "RefreshToken")
+    var refreshGuest: Bool? {
+        return UserDefaults.standard.object(forKey: "refreshGuest") as? Bool
     }
     
     var tokenExpirationDate: Date? {
@@ -51,24 +53,27 @@ class AuthInteractor: AuthInteractable {
     }
     
     // MARK: - Methods
-    
-    func getRequestToken() {
-        self.service.getRequestToken { result in
+    func fetchGuestSection() {
+        service.fetchGuestSection { result in
             switch result {
-            case .success(let token):
-                print(token)
-                self.saveToken(model: token)
-            case .failure(let errorToken):
-                print(errorToken)
+            case .success(let model):
+                self.presenter?.getGuestSection(model: model)
+                self.saveGuestSection(model: model)
+            case .failure(let error):
+                self.presenter?.didFailure(messega: error.localizedDescription)
+                print(error)
             }
         }
     }
     
-    func saveToken(model: RequestTokenEntity) {
-        UserDefaults.standard.set(model.requestToken, forKey: "Token")
-        // 2023-09-12 22:10:48 UTC Son 60 minutos exactos(3600 segundos)
+    
+    // MARK: - Saving Methods
+
+    func saveGuestSection(model: GuestSectionResponseEntity) {
+        UserDefaults.standard.set(model.guestSessionId, forKey: "guestSection")
+        //Son 60 minutos exactos(3600 segundos)
         UserDefaults.standard.set(Date().addingTimeInterval(TimeInterval(3600)), forKey: "ExpireAt")
-        UserDefaults.standard.set(model.success, forKey: "RefreshToken")
+        UserDefaults.standard.set(model.success, forKey: "refreshGuest")
     }
     
     public func signOut(completion: (Bool) -> Void ) {
@@ -77,7 +82,5 @@ class AuthInteractor: AuthInteractable {
         UserDefaults.standard.set(nil, forKey: "RefreshToken")
         completion(true)
     }
-    
-    
-    
+  
 }

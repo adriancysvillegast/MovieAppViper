@@ -9,10 +9,17 @@ import Foundation
 import UIKit
 
 protocol AuthRouting: AnyObject {
+    func isSigned() -> Bool
     func showAuthView() -> UIViewController
 }
 
 class AuthRouter : AuthRouting {
+    
+    func isSigned() -> Bool {
+        let interactor = AuthInteractor()
+        let presenter = AuthPresenter(interactor: interactor, router: self)
+        return presenter.isSigned()
+    }
     
     func showAuthView() -> UIViewController {
         let interactor = AuthInteractor()
