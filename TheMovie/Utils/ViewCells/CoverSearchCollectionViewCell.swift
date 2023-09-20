@@ -52,7 +52,8 @@ class CoverSearchCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Methods
     func configuration(model: SearchResultViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
         aSublabel.text = model.title
     }
 }
