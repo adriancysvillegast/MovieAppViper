@@ -45,40 +45,49 @@ class BasicCollectionViewCell: UICollectionViewCell {
     
     // MARK: - MOVIE Methods
     func configuration(model: PopularViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
     
     func configuration(model: NowPlayingViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
     
     func configuration(model: TopRateViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
     
     func configuration(model: UpComingViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
     
     // MARK: - TV METHODS
     func configuration(model: TvAiringTodayViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
     
     func configuration(model: TvOnAirViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
     
     func configuration(model: TvPopularViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
     
     func configuration(model: TvTopRateViewModelCell) {
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
     
     func configuration(model: ListByGenreViewModelCell) {
         aImageCover.contentMode = .scaleToFill
-        aImageCover.sd_setImage(with: model.posterPath, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: model.posterPath,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
 }
