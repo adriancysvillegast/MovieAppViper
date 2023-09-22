@@ -1,5 +1,5 @@
 //
-//  BrowserPresenter.swift
+//  MoviePresenter.swift
 //  TheMovie
 //
 //  Created by Adriancys Jesus Villegas Toro on 8/9/23.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-// MARK: - BrowserType
+// MARK: - MovieType
 
-enum BrowserType {
+enum MovieType {
     case topRate(model: [TopRateViewModelCell])
     case upComing(model: [UpComingViewModelCell])
     case popularMovies(model: [PopularViewModelCell])
@@ -32,10 +32,10 @@ enum BrowserType {
 }
 
 // MARK: - BrowserPresentable
-protocol BrowserPresentable: AnyObject {
+protocol MoviePresentable: AnyObject {
 //    Properties
-    var view: BrowserViewDelegate? { get }
-    var dataBrowser: [BrowserType] { get }
+    var view: MovieViewDelegate? { get }
+    var dataMovies: [MovieType] { get }
 
 //    Methods
     func fetchAllMovieEndPoints()
@@ -48,22 +48,22 @@ protocol BrowserPresentable: AnyObject {
     
 }
 
-
-class BrowserPresenter: BrowserPresentable {
+// MARK: - MoviePresenter
+class MoviePresenter: MoviePresentable {
     
 
     // MARK: - Properties
-    weak var view: BrowserViewDelegate?
-    private var interactor: BrowserInteractable?
+    weak var view: MovieViewDelegate?
+    private var interactor: MovieInteractable?
     var mapper: Mapper
-    private let router: BrowserRouting
+    private let router: MovieRouting
 
-    var dataBrowser: [BrowserType] = []
+    var dataMovies: [MovieType] = []
 
     // MARK: - Init
     
-    init(interactor: BrowserInteractable,
-         router: BrowserRouting,
+    init(interactor: MovieInteractable,
+         router: MovieRouting,
          mapper: Mapper = Mapper()) {
         
         self.interactor = interactor
@@ -82,24 +82,24 @@ class BrowserPresenter: BrowserPresentable {
     
     func didSuccessPopularMovie(model: PopularMoviesResponseEntity) {
         let movieCell = mapper.popularMovie(model: model)
-        dataBrowser.append(.popularMovies(model: movieCell))
+        dataMovies.append(.popularMovies(model: movieCell))
     }
     
     func didSuccessNowPlaying(model: NowPlayingResponseEntity) {
         let movieCell = mapper.nowPlayingMovie(model: model)
-        dataBrowser.append(.nowPlaying(model: movieCell))
+        dataMovies.append(.nowPlaying(model: movieCell))
     }
     
     func didSuccessTopRate(model: TopRateResponseEntity) {
         let movieCell = mapper.topRateMovie(model: model)
-        dataBrowser.append(.topRate(model: movieCell))
+        dataMovies.append(.topRate(model: movieCell))
 
     }
     
     func didSuccessUpComing(model: UpComingResponseEntity) {
         let movieCell = mapper.upComingMovie(model: model)
-        dataBrowser.append(.upComing(model: movieCell))
-        view?.updateView(model: dataBrowser)
+        dataMovies.append(.upComing(model: movieCell))
+        view?.updateView(model: dataMovies)
     }
     
     func onTapMovie(movieID: Int) {

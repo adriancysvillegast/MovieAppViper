@@ -42,33 +42,5 @@ class SearchService {
                 }
     }
     
-//    func getSearchTv(
-//        query: String,
-//        completion: @escaping (Result<SearchResponseEntity, Error>) -> Void ) {
-//            CoreService.shared.get(
-//                url: URL(string: baseURL + "/search/movie?query=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&api_key=" + apiToken),
-//                expecting: SearchResponseEntity.self) { result in
-//                    switch result {
-//                    case .success(let model):
-//                        completion(.success(model))
-//                    case .failure(let error):
-//                        completion(.failure(error))
-//                    }
-//                }
-//    }
-//    
-//    func getSearchMovie(
-//        query: String,
-//        completion: @escaping (Result<SearchResponseEntity, Error>) -> Void ) {
-//            CoreService.shared.get(
-//                url: URL(string: baseURL + "/search/movie?query=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&api_key=" + apiToken),
-//                expecting: SearchResponseEntity.self) { result in
-//                    switch result {
-//                    case .success(let model):
-//                        completion(.success(model))
-//                    case .failure(let error):
-//                        completion(.failure(error))
-//                    }
-//                }
-//    }
+
 }

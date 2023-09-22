@@ -1,5 +1,5 @@
 //
-//  BrowserRouter.swift
+//  MovieRouter.swift
 //  TheMovie
 //
 //  Created by Adriancys Jesus Villegas Toro on 8/9/23.
@@ -8,26 +8,26 @@
 import Foundation
 import UIKit
 
-protocol BrowserRouting: AnyObject {
-    var browserView : BrowserView? { get }
+protocol MovieRouting: AnyObject {
+    var browserView : MovieView? { get }
     var detailView: DetailMovieRouting? { get }
     
-    func showBrowser() -> UIViewController
+    func showMovies() -> UIViewController
     func showDetailMovie(movieID: String)
 }
 
-class BrowserRouter: BrowserRouting {
+class MovieRouter: MovieRouting {
     
     
     // MARK: - Properties
-    var browserView : BrowserView?
+    var browserView : MovieView?
     var detailView: DetailMovieRouting?
     // MARK: - Methods
-    public func showBrowser() -> UIViewController {
+    public func showMovies() -> UIViewController {
         detailView = DetailMovieRouter()
-        let interactor = BrowserInteractor()
-        let presenter = BrowserPresenter(interactor: interactor, router: self)
-        let view = BrowserView(presenter: presenter)
+        let interactor = MovieInteractor()
+        let presenter = MoviePresenter(interactor: interactor, router: self)
+        let view = MovieView(presenter: presenter)
         browserView = view
         presenter.view = view
         interactor.presenter = presenter

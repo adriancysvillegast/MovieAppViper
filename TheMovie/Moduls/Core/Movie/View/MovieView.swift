@@ -1,5 +1,5 @@
 //
-//  BrowserView.swift
+//  MovieView.swift
 //  TheMovie
 //
 //  Created by Adriancys Jesus Villegas Toro on 8/9/23.
@@ -8,24 +8,24 @@
 import UIKit
 
 // MARK: - BrowserViewDelegate
-protocol BrowserViewDelegate: AnyObject {
+protocol MovieViewDelegate: AnyObject {
     //    Properties
     
     //    Methods
-    func updateView(model: [BrowserType])
+    func updateView(model: [MovieType])
     func showError(message: String)
 }
 
-class BrowserView: UIViewController {
+class MovieView: UIViewController {
 
     // MARK: - Properties
-    private let presenter: BrowserPresentable
-    private var dataBrowser: [BrowserType] = []
+    private let presenter: MoviePresentable
+    private var dataBrowser: [MovieType] = []
     
     private lazy var aCollectionView: UICollectionView = {
         let aCollection = UICollectionView(frame: .zero,
                                            collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { sections, _ in
-            return BrowserView.createSectionLayout(with: sections)
+            return MovieView.createSectionLayout(with: sections)
         }))
         aCollection.backgroundColor = .systemBackground
         aCollection.delegate = self
@@ -39,7 +39,7 @@ class BrowserView: UIViewController {
     
     // MARK: - Init
     
-    init(presenter: BrowserPresentable) {
+    init(presenter: MoviePresentable) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,7 +53,7 @@ class BrowserView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .blue
-        title = "Browser"
+        title = "Movies"
         setUpView()
         presenter.fetchAllMovieEndPoints()
         
@@ -73,11 +73,11 @@ class BrowserView: UIViewController {
 
 }
 
-// MARK: - BrowserViewDelegate
-extension BrowserView: BrowserViewDelegate {
-    func updateView(model: [BrowserType]) {
+// MARK: - MovieViewDelegate
+extension MovieView: MovieViewDelegate {
+    func updateView(model: [MovieType]) {
         DispatchQueue.main.async {
-            self.dataBrowser = self.presenter.dataBrowser
+            self.dataBrowser = self.presenter.dataMovies
             self.aCollectionView.isHidden = false
             self.aCollectionView.reloadData()
         }
@@ -92,7 +92,7 @@ extension BrowserView: BrowserViewDelegate {
     
 }
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-extension BrowserView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MovieView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataBrowser.count
