@@ -7,9 +7,10 @@
 
 import Foundation
 
-protocol BrowserInteractable: AnyObject {
+// MARK: - MovieInteractable
+protocol MovieInteractable: AnyObject {
     // MARK: - Properties
-    var presenter: BrowserPresentable? { get }
+    var presenter: MoviePresentable? { get }
     // MARK: - Methods
     func getPopularMovies()
     func getNowPlaying()
@@ -17,13 +18,14 @@ protocol BrowserInteractable: AnyObject {
     func getUpComing()
 }
 
-class BrowserInteractor: BrowserInteractable {
+// MARK: - MovieInteractor
+class MovieInteractor: MovieInteractable {
 
     // MARK: - Properties
-    weak var presenter: BrowserPresentable?
-    private let service: BrowserService
+    weak var presenter: MoviePresentable?
+    private let service: MovieService
     
-    init(service: BrowserService = BrowserService()) {
+    init(service: MovieService = MovieService()) {
         self.service = service
     }
     

@@ -15,7 +15,8 @@ class BasicCollectionViewCell: UICollectionViewCell {
     
     private lazy var aImageCover: UIImageView = {
         let aImage = UIImageView()
-        aImage.contentMode = .scaleAspectFit
+//        aImage.contentMode = .scaleAspectFit
+        
         return aImage
     }()
     

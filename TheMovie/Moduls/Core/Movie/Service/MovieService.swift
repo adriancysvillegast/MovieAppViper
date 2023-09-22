@@ -1,5 +1,5 @@
 //
-//  BrowserService.swift
+//  MovieService.swift
 //  TheMovie
 //
 //  Created by Adriancys Jesus Villegas Toro on 8/9/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BrowserService {
+class MovieService {
     // MARK: - Properties
     private let baseURL = ProcessInfo.processInfo.environment["baseURL"] ?? "https://api.themoviedb.org/3"
     private let apiToken = ProcessInfo.processInfo.environment["token"] ?? ""
