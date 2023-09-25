@@ -45,6 +45,7 @@ class CoverCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Methods
     func configuration(artWork: URL?) {
-        aImageCover.sd_setImage(with: artWork, placeholderImage: UIImage(systemName: "photo"))
+        aImageCover.sd_setImage(with: artWork,
+                                placeholderImage: UIImage(named: "image-placeholder"))
     }
 }
