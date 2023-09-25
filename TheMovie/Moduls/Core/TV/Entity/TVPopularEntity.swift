@@ -8,14 +8,14 @@
 import Foundation
 
 struct TVPopularEntity: Codable {
-    let backdropPath, firstAirDate: String
+    let backdropPath, firstAirDate: String?
     let genreIds: [Int]
     let id: Int
     let name: String
     let originCountry: [String]
     let originalLanguage, originalName, overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let voteAverage: Double
     let voteCount: Int
 }

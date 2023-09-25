@@ -15,7 +15,7 @@ struct TVOnAirEntity: Codable {
     let originCountry: [String]
     let originalLanguage, originalName, overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let voteAverage: Double
     let voteCount: Int
 }

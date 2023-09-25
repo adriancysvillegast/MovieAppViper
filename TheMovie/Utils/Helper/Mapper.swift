@@ -98,7 +98,7 @@ struct Mapper {
         let modelCell = model.results.compactMap {
             TvPopularViewModelCell(
                 id: $0.id,
-                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + $0.posterPath),
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + ($0.posterPath ?? "")),
                 title: $0.originalName,
                 overview: $0.overview
             )
@@ -110,7 +110,7 @@ struct Mapper {
         let modelCell = model.results.compactMap {
             TvTopRateViewModelCell(
                 id: $0.id,
-                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + $0.posterPath),
+                posterPath: URL(string: "https://image.tmdb.org/t/p/w200" + ($0.posterPath ?? "")),
                 title: $0.originalName,
                 overview: $0.overview
             )

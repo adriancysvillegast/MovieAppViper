@@ -453,7 +453,9 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource {
             section.orthogonalScrollingBehavior = .groupPaging
             section.boundarySupplementaryItems = supplementaryView
             return section
+
         default :
+            //            Up Coming
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
@@ -462,25 +464,17 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource {
             )
             item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 2, bottom: 5, trailing: 2)
             
-            let groupVertical = NSCollectionLayoutGroup.vertical(
+            let groupHorizontal = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
-                    heightDimension: .absolute(400))
+                    widthDimension: .fractionalWidth(0.98),
+                    heightDimension: .absolute(300))
                 ,subitem: item,
                 count: 2
             )
             
-            groupVertical.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5)
-            
-            let horizontalGroup = NSCollectionLayoutGroup.horizontal(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.9),
-                    heightDimension: .absolute(400)),
-                subitem: groupVertical,
-                count: 2)
-            
-            let section = NSCollectionLayoutSection(group: horizontalGroup)
+            let section = NSCollectionLayoutSection(group: groupHorizontal)
             section.orthogonalScrollingBehavior = .groupPaging
+            section.boundarySupplementaryItems = supplementaryView
             return section
         }
         

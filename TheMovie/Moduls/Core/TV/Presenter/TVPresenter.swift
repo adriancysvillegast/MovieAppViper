@@ -39,6 +39,7 @@ protocol TVPresentable: AnyObject {
     func mappingTvTopRate(model: TVTopRateResponseEntity)
     func didTapTv(id: String)
     func didFailured(message: String)
+    func onAppear()
 }
 
 class TVPresenter: TVPresentable {
@@ -48,6 +49,11 @@ class TVPresenter: TVPresentable {
     var mapper: Mapper
     private let router: TVRouting
     var dataTv: [TVShowType] = []
+    
+    var tvAir: [TvAiringTodayViewModelCell] = []
+    var tvOnAir: [TvOnAirViewModelCell] = []
+    var tvPopular: [TvPopularViewModelCell] = []
+    var tvTopRate:  [TvTopRateViewModelCell] = []
     // MARK: - Init
     
     init(interactor: TVInteractable, router: TVRouting, mapper: Mapper = Mapper()) {
@@ -63,28 +69,29 @@ class TVPresenter: TVPresentable {
         interactor.getTvOnAir()
         interactor.getTvPopular()
         interactor.getTvTopRate()
-    }
-    
-    func mappingTvAir(model: TVAiringTodayResponsesEntity) {
-        let modelCell = mapper.tvAiring(model: model)
-        dataTv.append(.airToday(model: modelCell))
-    }
-    
-    func mappingTvOnAir(model: TVOnAirResponseEntity) {
-        let modelCell = mapper.tvOnAir(model: model)
-        dataTv.append(.onAir(model: modelCell))
-    }
-    
-    func mappingTvPopular(model: TVPopularResponseEntity) {
-        let modelCell =  mapper.tvPopular(model: model)
-        dataTv.append(.popular(model: modelCell))
         
     }
     
-    func mappingTvTopRate(model: TVTopRateResponseEntity) {
-        let modelCell = mapper.tvTopRate(model: model)
-        dataTv.append(.topRate(model: modelCell))
+    func mappingTvAir(model: TVAiringTodayResponsesEntity) {
+        tvAir = mapper.tvAiring(model: model)
+        dataTv.append(.airToday(model: tvAir))
+    }
+    
+    func mappingTvOnAir(model: TVOnAirResponseEntity) {
+        tvOnAir = mapper.tvOnAir(model: model)
+        dataTv.append(.onAir(model: tvOnAir))
+    }
+    
+    func mappingTvPopular(model: TVPopularResponseEntity) {
+        tvPopular = mapper.tvPopular(model: model)
+        dataTv.append(.popular(model: tvPopular))
         view?.showTvShows(model: dataTv)
+    }
+    
+    func mappingTvTopRate(model: TVTopRateResponseEntity) {
+        tvTopRate = mapper.tvTopRate(model: model)
+        dataTv.append(.topRate(model: tvTopRate))
+        
     }
     
     func didTapTv(id: String) {
@@ -93,5 +100,10 @@ class TVPresenter: TVPresentable {
     
     func didFailured(message: String) {
         view?.showError(message: message)
+    }
+    
+    func onAppear() {
+        
+        view?.updateView(topRate: tvTopRate, tvAir: tvAir, tvOnAir: tvOnAir, tvPopular: tvPopular)
     }
 }
