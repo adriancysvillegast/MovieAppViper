@@ -49,16 +49,12 @@ class HomeView: UIViewController {
     
     // MARK: - LifeCycle
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.fetchAll()
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .blue
         title = "Browser"
-//        presenter.fetchAll()
+        presenter.fetchAll()
         setUpView()
     }
 
