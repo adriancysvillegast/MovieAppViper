@@ -98,6 +98,17 @@ class HomePresenter: HomePresentable  {
     private let mapper: Mapper
     var browserAll: [BrowserData] = []
     
+    var topRateM: [TopRateViewModelCell] = []
+    var topRateT: [TvTopRateViewModelCell] = []
+    var actionM: [ListByGenreViewModelCell] = []
+    var documenM: [ListByGenreViewModelCell] = []
+    var upCominM: [UpComingViewModelCell] = []
+    var AnimaM: [ListByGenreViewModelCell] = []
+    var comedyTV: [ListByGenreViewModelCell] = []
+    var dramaTV: [ListByGenreViewModelCell] = []
+    var misteryTV: [ListByGenreViewModelCell] = []
+    
+    
     init(interactor: HomeInteractable, router: HomeRouting, mapper: Mapper = Mapper()) {
         self.interactor = interactor
         self.router = router
@@ -119,52 +130,49 @@ class HomePresenter: HomePresentable  {
     }
     
     func mappingTopRateMovie(model: TopRateResponseEntity) {
-        let modelCell = mapper.topRateMovie(model: model)
-        browserAll.append(.topRateMovie(model: modelCell))
+        topRateM = mapper.topRateMovie(model: model)
+        browserAll.append(.topRateMovie(model: topRateM))
     }
     
     func mappingTopRateTV(model: TVTopRateResponseEntity) {
-        let modelCell = mapper.tvTopRate(model: model)
-        browserAll.append(.topRateTV(model: modelCell))
+        topRateT = mapper.tvTopRate(model: model)
+        browserAll.append(.topRateTV(model: topRateT))
     }
     
     func mappingSuggestionActionMovie(model: ListByGenrerResponseEntity) {
-        let modelCell = mapper.mappingListByGenre(model: model)
-        browserAll.append(.sugActionMovie(model: modelCell))
+        actionM = mapper.mappingListByGenre(model: model)
+        browserAll.append(.sugActionMovie(model: actionM))
     }
     
     func mappingSuggestionDocumentaryMovie(model: ListByGenrerResponseEntity) {
-        let modelCell = mapper.mappingListByGenre(model: model)
-        browserAll.append(.sugDocumentaryMovie(model: modelCell))
+        documenM = mapper.mappingListByGenre(model: model)
+        browserAll.append(.sugDocumentaryMovie(model: documenM))
     }
     
     func mappingUpComingMovie(model: UpComingResponseEntity) {
-        let modelCell = mapper.upComingMovie(model: model)
-        browserAll.append(.upComingMovie(model: modelCell))
+        upCominM = mapper.upComingMovie(model: model)
+        browserAll.append(.upComingMovie(model: upCominM))
         view?.updateView(model: browserAll)
     }
     
     func mappingSuggestionAnimationMovie(model: ListByGenrerResponseEntity) {
-        let modelCell = mapper.mappingListByGenre(model: model)
-        browserAll.append(.sugAnimationMovie(model: modelCell))
+        AnimaM = mapper.mappingListByGenre(model: model)
+        browserAll.append(.sugAnimationMovie(model: AnimaM))
     }
     
     func mappingSuggestionComedyTV(model: ListByGenrerResponseEntity) {
-        let modelCell = mapper.mappingListByGenre(model: model)
-        browserAll.append(.sugComedyTV(model: modelCell))
-        
+        comedyTV = mapper.mappingListByGenre(model: model)
+        browserAll.append(.sugComedyTV(model: comedyTV))
     }
     
     func mappingSuggestionDramaTV(model: ListByGenrerResponseEntity) {
-        let modelCell = mapper.mappingListByGenre(model: model)
-        browserAll.append(.sugDramaTV(model: modelCell))
-        
+        dramaTV = mapper.mappingListByGenre(model: model)
+        browserAll.append(.sugDramaTV(model: dramaTV))
     }
     
     func mappingSuggestionMisteryTV(model: ListByGenrerResponseEntity) {
-        let modelCell = mapper.mappingListByGenre(model: model)
-        browserAll.append(.sugMisteryTV(model: modelCell))
-        
+        misteryTV = mapper.mappingListByGenre(model: model)
+        browserAll.append(.sugMisteryTV(model: misteryTV))
     }
     
     func didTap(id: String, type: BrowserType) {
