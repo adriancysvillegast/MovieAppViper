@@ -29,10 +29,12 @@ class TVInteractor: TVInteractable {
     // MARK: - Methods
     func getTvAirToday() {
         service.fetchTVAirToday { result in
+            
             switch result {
             case .success(let model):
                 self.presenter?.mappingTvAir(model: model)
             case .failure(let error):
+//                print(error)
                 self.presenter?.didFailured(message: error.localizedDescription)
             }
         }
@@ -44,6 +46,7 @@ class TVInteractor: TVInteractable {
             case .success(let model):
                 self.presenter?.mappingTvOnAir(model: model)
             case .failure(let error):
+//                print("----" + error.localizedDescription)
                 self.presenter?.didFailured(message: error.localizedDescription)
             }
         }
@@ -55,6 +58,7 @@ class TVInteractor: TVInteractable {
             case .success(let model):
                 self.presenter?.mappingTvPopular(model: model)
             case .failure(let error):
+                print(error)
                 self.presenter?.didFailured(message: error.localizedDescription)
             }
         }
@@ -66,6 +70,7 @@ class TVInteractor: TVInteractable {
             case .success(let model):
                 self.presenter?.mappingTvTopRate(model: model)
             case .failure(let error):
+//                print(error)
                 self.presenter?.didFailured(message: error.localizedDescription)
             }
         }

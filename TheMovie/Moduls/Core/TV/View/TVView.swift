@@ -8,6 +8,7 @@
 import UIKit
 // MARK: - TVViewDelegate
 protocol TVViewDelegate: AnyObject {
+    func updateView(topRate:  [TvTopRateViewModelCell], tvAir: [TvAiringTodayViewModelCell], tvOnAir: [TvOnAirViewModelCell], tvPopular: [TvPopularViewModelCell])
     func showTvShows(model: [TVShowType])
     func showError(message: String)
 }
@@ -70,6 +71,19 @@ class TVView: UIViewController {
 }
 // MARK: - TVViewDelegate
 extension TVView: TVViewDelegate {
+    func updateView(topRate:  [TvTopRateViewModelCell],
+                    tvAir: [TvAiringTodayViewModelCell],
+                    tvOnAir: [TvOnAirViewModelCell],
+                    tvPopular: [TvPopularViewModelCell]){
+        DispatchQueue.main.async {
+            self.tvShows.append(.topRate(model: topRate))
+            self.tvShows.append(.popular(model: tvPopular))
+            self.tvShows.append(.onAir(model: tvOnAir))
+            self.tvShows.append(.airToday(model: tvAir))
+            self.aCollectionView.reloadData()
+        }
+    }
+    
     func showTvShows(model: [TVShowType]) {
         DispatchQueue.main.async {
             self.tvShows = model
